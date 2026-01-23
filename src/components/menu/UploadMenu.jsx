@@ -82,10 +82,17 @@ export default function UploadMenu({ onUploadComplete }) {
         setFile(null);
         onUploadComplete();
       } else {
-        setStatus({ type: 'error', message: result.details || 'Failed to extract menu data' });
+        setStatus({ type: 'error', message: result.details || 'Failed to extract menu data. Please check your CSV format.' });
       }
     } catch (error) {
-      setStatus({ type: 'error', message: error.message || 'Upload failed' });
+      console.error('Upload error:', error);
+      const errorMsg = error?.message || 'Upload failed';
+      setStatus({ 
+        type: 'error', 
+        message: errorMsg.includes('Invalid file') 
+          ? 'Invalid CSV format. Column headers must be exactly: week, date, food, allergyAccommodations (case-sensitive, no spaces)'
+          : errorMsg
+      });
     } finally {
       setUploading(false);
     }
