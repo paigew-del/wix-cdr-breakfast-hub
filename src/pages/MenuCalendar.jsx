@@ -41,6 +41,7 @@ export default function MenuCalendar() {
         if (filter === 'VEG') return item.isVEG;
         if (filter === 'VGN') return item.isVGN;
         if (filter === 'DFA') return item.isDFA;
+        if (filter === 'VGNA') return item.isVGNA;
         return false;
       })
     );
