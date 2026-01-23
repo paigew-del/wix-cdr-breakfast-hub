@@ -23,10 +23,17 @@ export default function UploadMenu({ onUploadComplete }) {
     setStatus(null);
 
     try {
+      // Validate file type
+      if (!file.name.endsWith('.csv')) {
+        setStatus({ type: 'error', message: 'Please upload a CSV file' });
+        setUploading(false);
+        return;
+      }
+
       // Upload file
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
 
-      // Extract data from file - be flexible with column names
+      // Extract data from file
       const result = await base44.integrations.Core.ExtractDataFromUploadedFile({
         file_url,
         json_schema: {
@@ -34,11 +41,10 @@ export default function UploadMenu({ onUploadComplete }) {
           items: {
             type: "object",
             properties: {
-              week: { type: "string" },
               date: { type: "string" },
-              food: { type: "string" },
-              allergyAccommodations: { type: "string" }
-            }
+              food: { type: "string" }
+            },
+            required: ["date", "food"]
           }
         }
       });
@@ -56,8 +62,15 @@ export default function UploadMenu({ onUploadComplete }) {
             };
           }
 
-          // Parse allergy accommodations
-          const accommodations = (item.allergyAccommodations || item.allergy_accommodations || '').toLowerCase();
+          // Parse allergy accommodations - check multiple possible column names
+          const accommodations = (
+            item.allergyAccommodations || 
+            item.allergy_accommodations || 
+            item.allergyaccommodations ||
+            item['allergy accommodations'] ||
+            item.allergies || 
+            ''
+          ).toLowerCase();
           
           menuByDate[item.date].menuItems.push({
             itemName: item.food,
@@ -109,18 +122,18 @@ export default function UploadMenu({ onUploadComplete }) {
           <Input
             id="menu-file"
             type="file"
-            accept=".csv"
+            accept=".csv,text/csv,application/csv"
             onChange={handleFileChange}
             disabled={uploading}
           />
           <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
             <p className="text-xs text-slate-700 font-medium mb-2">CSV Format Requirements:</p>
             <ul className="text-xs text-slate-600 space-y-1 ml-4 list-disc">
-              <li><strong>Required columns:</strong> week, date, food, allergyAccommodations (no spaces in header)</li>
+              <li><strong>Required columns:</strong> date, food</li>
+              <li><strong>Optional column:</strong> allergyAccommodations (or similar)</li>
               <li><strong>Date format:</strong> YYYY-MM-DD (e.g., 2024-02-15)</li>
-              <li><strong>Allergy accommodations:</strong> Use GF, GFA, VEG, VGN, DFA, VGNA (comma-separated)</li>
-              <li>Example: "GF, VEG" or "GFA, DFA, VGNA"</li>
-              <li>If you have Excel, save as CSV before uploading</li>
+              <li><strong>Allergy codes:</strong> GF, GFA, VEG, VGN, DFA, VGNA (comma-separated)</li>
+              <li>Save as CSV (UTF-8) from Excel before uploading</li>
             </ul>
           </div>
         </div>
