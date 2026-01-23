@@ -27,38 +27,36 @@ export default function UploadMenu({ onUploadComplete }) {
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
 
       // Extract data from file
-      const schema = {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            date: { type: "string" },
-            itemName: { type: "string" },
-            description: { type: "string" },
-            isGF: { type: "boolean" },
-            isGFA: { type: "boolean" },
-            isVEG: { type: "boolean" },
-            isVGN: { type: "boolean" },
-            isDFA: { type: "boolean" },
-            specialNotes: { type: "string" }
-          }
-        }
-      };
-
       const result = await base44.integrations.Core.ExtractDataFromUploadedFile({
         file_url,
-        json_schema: { 
+        json_schema: {
           type: "object",
           properties: {
-            menu_items: schema
+            rows: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  date: { type: "string" },
+                  itemName: { type: "string" },
+                  description: { type: "string" },
+                  isGF: { type: "string" },
+                  isGFA: { type: "string" },
+                  isVEG: { type: "string" },
+                  isVGN: { type: "string" },
+                  isDFA: { type: "string" },
+                  specialNotes: { type: "string" }
+                }
+              }
+            }
           }
         }
       });
 
-      if (result.status === 'success' && result.output?.menu_items) {
+      if (result.status === 'success' && result.output?.rows) {
         // Group by date
         const menuByDate = {};
-        result.output.menu_items.forEach(item => {
+        result.output.rows.forEach(item => {
           if (!menuByDate[item.date]) {
             menuByDate[item.date] = {
               date: item.date,
@@ -66,14 +64,22 @@ export default function UploadMenu({ onUploadComplete }) {
               specialNotes: item.specialNotes || ''
             };
           }
+          const parseBoolean = (val) => {
+            if (typeof val === 'boolean') return val;
+            if (typeof val === 'string') {
+              return val.toLowerCase() === 'true' || val === '1' || val.toLowerCase() === 'yes';
+            }
+            return false;
+          };
+
           menuByDate[item.date].menuItems.push({
             itemName: item.itemName,
             description: item.description || '',
-            isGF: item.isGF || false,
-            isGFA: item.isGFA || false,
-            isVEG: item.isVEG || false,
-            isVGN: item.isVGN || false,
-            isDFA: item.isDFA || false
+            isGF: parseBoolean(item.isGF),
+            isGFA: parseBoolean(item.isGFA),
+            isVEG: parseBoolean(item.isVEG),
+            isVGN: parseBoolean(item.isVGN),
+            isDFA: parseBoolean(item.isDFA)
           });
         });
 
@@ -103,7 +109,7 @@ export default function UploadMenu({ onUploadComplete }) {
       <div className="space-y-4">
         <div>
           <Label htmlFor="menu-file" className="text-sm text-slate-700 mb-2 block">
-            Select CSV file with columns: date, itemName, description, isGF, isGFA, isVEG, isVGN, isDFA, specialNotes
+            Select CSV file
           </Label>
           <Input
             id="menu-file"
@@ -112,9 +118,16 @@ export default function UploadMenu({ onUploadComplete }) {
             onChange={handleFileChange}
             disabled={uploading}
           />
-          <p className="text-xs text-slate-500 mt-2">
-            Note: Only CSV files are supported. If you have an Excel file, please save it as CSV first.
-          </p>
+          <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
+            <p className="text-xs text-slate-700 font-medium mb-2">CSV Format Requirements:</p>
+            <ul className="text-xs text-slate-600 space-y-1 ml-4 list-disc">
+              <li><strong>Required columns:</strong> date, itemName</li>
+              <li><strong>Optional columns:</strong> description, isGF, isGFA, isVEG, isVGN, isDFA, specialNotes</li>
+              <li><strong>Date format:</strong> YYYY-MM-DD (e.g., 2024-02-15)</li>
+              <li><strong>Boolean values:</strong> Use TRUE/FALSE, Yes/No, or 1/0</li>
+              <li>If you have Excel, save as CSV before uploading</li>
+            </ul>
+          </div>
         </div>
 
         {status && (
