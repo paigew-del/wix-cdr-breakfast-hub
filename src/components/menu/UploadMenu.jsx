@@ -97,21 +97,24 @@ export default function UploadMenu({ onUploadComplete }) {
     <div className="bg-white rounded-xl border border-slate-200/60 p-6 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <FileSpreadsheet className="h-5 w-5 text-amber-600" />
-        <h3 className="font-semibold text-slate-900">Upload Menu (CSV/Excel)</h3>
+        <h3 className="font-semibold text-slate-900">Upload Menu (CSV Only)</h3>
       </div>
       
       <div className="space-y-4">
         <div>
           <Label htmlFor="menu-file" className="text-sm text-slate-700 mb-2 block">
-            Select file with columns: date, itemName, description, isGF, isGFA, isVEG, isVGN, isDFA, specialNotes
+            Select CSV file with columns: date, itemName, description, isGF, isGFA, isVEG, isVGN, isDFA, specialNotes
           </Label>
           <Input
             id="menu-file"
             type="file"
-            accept=".csv,.xlsx,.xls"
+            accept=".csv"
             onChange={handleFileChange}
             disabled={uploading}
           />
+          <p className="text-xs text-slate-500 mt-2">
+            Note: Only CSV files are supported. If you have an Excel file, please save it as CSV first.
+          </p>
         </div>
 
         {status && (

@@ -6,12 +6,14 @@ import { Plus, Calendar as CalendarIcon } from 'lucide-react';
 import MenuCard from '../components/menu/MenuCard';
 import MenuFilters from '../components/menu/MenuFilters';
 import UploadMenu from '../components/menu/UploadMenu';
+import ManualMenuEntry from '../components/menu/ManualMenuEntry';
 import { addDays, format, parseISO } from 'date-fns';
 
 export default function MenuCalendar() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [showUpload, setShowUpload] = useState(false);
+  const [showManualEntry, setShowManualEntry] = useState(false);
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -49,6 +51,11 @@ export default function MenuCalendar() {
     setShowUpload(false);
   };
 
+  const handleManualSaveComplete = () => {
+    refetch();
+    setShowManualEntry(false);
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
@@ -71,19 +78,44 @@ export default function MenuCalendar() {
           <p className="text-slate-600 mt-1">2-Week Look Ahead</p>
         </div>
         {isAdmin && (
-          <Button
-            onClick={() => setShowUpload(!showUpload)}
-            className="bg-amber-600 hover:bg-amber-700"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            {showUpload ? 'Cancel' : 'Upload Menu'}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => {
+                setShowUpload(!showUpload);
+                setShowManualEntry(false);
+              }}
+              variant={showUpload ? "outline" : "default"}
+              className={!showUpload ? "bg-amber-600 hover:bg-amber-700" : ""}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Upload CSV
+            </Button>
+            <Button
+              onClick={() => {
+                setShowManualEntry(!showManualEntry);
+                setShowUpload(false);
+              }}
+              variant={showManualEntry ? "outline" : "default"}
+              className={!showManualEntry ? "bg-teal-600 hover:bg-teal-700" : ""}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Manually
+            </Button>
+          </div>
         )}
       </div>
 
       {/* Upload Section (Admin Only) */}
       {isAdmin && showUpload && (
         <UploadMenu onUploadComplete={handleUploadComplete} />
+      )}
+
+      {/* Manual Entry Section (Admin Only) */}
+      {isAdmin && showManualEntry && (
+        <ManualMenuEntry 
+          onSaveComplete={handleManualSaveComplete}
+          onCancel={() => setShowManualEntry(false)}
+        />
       )}
 
       {/* Filters */}
