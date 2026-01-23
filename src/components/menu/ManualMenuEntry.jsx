@@ -41,7 +41,9 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel }) {
           isGFA: false,
           isVEG: false,
           isVGN: false,
-          isDFA: false
+          isDF: false,
+          isDFA: false,
+          isVGNA: false
         }
       ]
     });
@@ -140,6 +142,7 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel }) {
                           { key: 'isGFA', label: 'Gluten Free Available' },
                           { key: 'isVEG', label: 'Vegetarian' },
                           { key: 'isVGN', label: 'Vegan' },
+                          { key: 'isDF', label: 'Dairy Free' },
                           { key: 'isDFA', label: 'Dairy Free Available' },
                           { key: 'isVGNA', label: 'Vegan Available' }
                         ].map(({ key, label }) => (

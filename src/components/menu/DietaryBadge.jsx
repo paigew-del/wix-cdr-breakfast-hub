@@ -11,6 +11,7 @@ const dietaryInfo = {
   GFA: { label: 'GFA', full: 'Gluten Free Available', color: 'bg-teal-100 text-teal-700 border-teal-200' },
   VEG: { label: 'VEG', full: 'Vegetarian', color: 'bg-green-100 text-green-700 border-green-200' },
   VGN: { label: 'VGN', full: 'Vegan', color: 'bg-lime-100 text-lime-700 border-lime-200' },
+  DF: { label: 'DF', full: 'Dairy Free', color: 'bg-blue-100 text-blue-700 border-blue-200' },
   DFA: { label: 'DFA', full: 'Dairy Free Available', color: 'bg-sky-100 text-sky-700 border-sky-200' },
   VGNA: { label: 'VGNA', full: 'Vegan Available', color: 'bg-purple-100 text-purple-700 border-purple-200' }
 };
