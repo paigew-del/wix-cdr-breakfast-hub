@@ -84,7 +84,8 @@ ${csvText}`,
             isGFA: accommodations.includes('gfa'),
             isVEG: accommodations.includes('veg') && !accommodations.includes('vgn'),
             isVGN: accommodations.includes('vgn') && !accommodations.includes('vgna'),
-            isDFA: accommodations.includes('dfa') || accommodations.includes('df'),
+            isDF: accommodations.includes('df') && !accommodations.includes('dfa'),
+            isDFA: accommodations.includes('dfa'),
             isVGNA: accommodations.includes('vgna')
           });
         });
@@ -134,7 +135,7 @@ ${csvText}`,
               <li><strong>Required columns:</strong> date, food</li>
               <li><strong>Optional column:</strong> allergyAccommodations (or similar)</li>
               <li><strong>Date format:</strong> YYYY-MM-DD (e.g., 2024-02-15)</li>
-              <li><strong>Allergy codes:</strong> GF, GFA, VEG, VGN, DFA, VGNA (comma-separated)</li>
+              <li><strong>Allergy codes:</strong> GF, GFA, VEG, VGN, DF, DFA, VGNA (comma-separated)</li>
               <li>Save as CSV (UTF-8) from Excel before uploading</li>
             </ul>
           </div>

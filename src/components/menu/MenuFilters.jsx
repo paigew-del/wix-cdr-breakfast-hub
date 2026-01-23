@@ -9,6 +9,7 @@ const dietaryOptions = [
   { value: 'GFA', label: 'GF Available', color: 'teal' },
   { value: 'VEG', label: 'Vegetarian', color: 'green' },
   { value: 'VGN', label: 'Vegan', color: 'lime' },
+  { value: 'DF', label: 'Dairy Free', color: 'blue' },
   { value: 'DFA', label: 'Dairy Free Available', color: 'sky' },
   { value: 'VGNA', label: 'Vegan Available', color: 'purple' }
 ];

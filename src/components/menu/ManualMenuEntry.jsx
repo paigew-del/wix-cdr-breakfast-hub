@@ -20,6 +20,7 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel }) {
         isGFA: false,
         isVEG: false,
         isVGN: false,
+        isDF: false,
         isDFA: false,
         isVGNA: false
       }

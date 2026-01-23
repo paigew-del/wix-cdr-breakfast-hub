@@ -48,6 +48,7 @@ export default function MenuCard({ menuDay, index }) {
                       {item.isGFA && <DietaryBadge type="GFA" />}
                       {item.isVEG && <DietaryBadge type="VEG" />}
                       {item.isVGN && <DietaryBadge type="VGN" />}
+                      {item.isDF && <DietaryBadge type="DF" />}
                       {item.isDFA && <DietaryBadge type="DFA" />}
                       {item.isVGNA && <DietaryBadge type="VGNA" />}
                     </div>
