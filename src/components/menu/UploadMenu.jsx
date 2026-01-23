@@ -26,32 +26,28 @@ export default function UploadMenu({ onUploadComplete }) {
       // Upload file
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
 
-      // Extract data from file
+      // Extract data from file - be flexible with column names
       const result = await base44.integrations.Core.ExtractDataFromUploadedFile({
         file_url,
         json_schema: {
-          type: "object",
-          properties: {
-            rows: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  week: { type: "string" },
-                  date: { type: "string" },
-                  food: { type: "string" },
-                  allergyAccommodations: { type: "string" }
-                }
-              }
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              week: { type: "string" },
+              date: { type: "string" },
+              food: { type: "string" },
+              allergyAccommodations: { type: "string" }
             }
           }
         }
       });
 
-      if (result.status === 'success' && result.output?.rows) {
+      if (result.status === 'success' && result.output) {
         // Group by date
         const menuByDate = {};
-        result.output.rows.forEach(item => {
+        const rows = Array.isArray(result.output) ? result.output : result.output.rows || [];
+        rows.forEach(item => {
           if (!menuByDate[item.date]) {
             menuByDate[item.date] = {
               date: item.date,
