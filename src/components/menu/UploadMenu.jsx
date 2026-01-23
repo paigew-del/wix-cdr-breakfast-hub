@@ -37,15 +37,10 @@ export default function UploadMenu({ onUploadComplete }) {
               items: {
                 type: "object",
                 properties: {
+                  week: { type: "string" },
                   date: { type: "string" },
-                  itemName: { type: "string" },
-                  description: { type: "string" },
-                  isGF: { type: "string" },
-                  isGFA: { type: "string" },
-                  isVEG: { type: "string" },
-                  isVGN: { type: "string" },
-                  isDFA: { type: "string" },
-                  specialNotes: { type: "string" }
+                  food: { type: "string" },
+                  allergy_accommodations: { type: "string" }
                 }
               }
             }
@@ -61,25 +56,21 @@ export default function UploadMenu({ onUploadComplete }) {
             menuByDate[item.date] = {
               date: item.date,
               menuItems: [],
-              specialNotes: item.specialNotes || ''
+              specialNotes: ''
             };
           }
-          const parseBoolean = (val) => {
-            if (typeof val === 'boolean') return val;
-            if (typeof val === 'string') {
-              return val.toLowerCase() === 'true' || val === '1' || val.toLowerCase() === 'yes';
-            }
-            return false;
-          };
 
+          // Parse allergy accommodations
+          const accommodations = (item.allergy_accommodations || '').toLowerCase();
+          
           menuByDate[item.date].menuItems.push({
-            itemName: item.itemName,
-            description: item.description || '',
-            isGF: parseBoolean(item.isGF),
-            isGFA: parseBoolean(item.isGFA),
-            isVEG: parseBoolean(item.isVEG),
-            isVGN: parseBoolean(item.isVGN),
-            isDFA: parseBoolean(item.isDFA)
+            itemName: item.food,
+            description: '',
+            isGF: accommodations.includes('gf') && !accommodations.includes('gfa'),
+            isGFA: accommodations.includes('gfa'),
+            isVEG: accommodations.includes('veg') && !accommodations.includes('vgn'),
+            isVGN: accommodations.includes('vgn'),
+            isDFA: accommodations.includes('dfa') || accommodations.includes('df')
           });
         });
 
@@ -121,10 +112,10 @@ export default function UploadMenu({ onUploadComplete }) {
           <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
             <p className="text-xs text-slate-700 font-medium mb-2">CSV Format Requirements:</p>
             <ul className="text-xs text-slate-600 space-y-1 ml-4 list-disc">
-              <li><strong>Required columns:</strong> date, itemName</li>
-              <li><strong>Optional columns:</strong> description, isGF, isGFA, isVEG, isVGN, isDFA, specialNotes</li>
+              <li><strong>Required columns:</strong> week, date, food, allergy accommodations</li>
               <li><strong>Date format:</strong> YYYY-MM-DD (e.g., 2024-02-15)</li>
-              <li><strong>Boolean values:</strong> Use TRUE/FALSE, Yes/No, or 1/0</li>
+              <li><strong>Allergy accommodations:</strong> Use GF, GFA, VEG, VGN, DFA (comma-separated)</li>
+              <li>Example: "GF, VEG" or "GFA, DFA"</li>
               <li>If you have Excel, save as CSV before uploading</li>
             </ul>
           </div>
