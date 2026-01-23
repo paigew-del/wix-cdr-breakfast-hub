@@ -20,7 +20,8 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel }) {
         isGFA: false,
         isVEG: false,
         isVGN: false,
-        isDFA: false
+        isDFA: false,
+        isVGNA: false
       }
     ],
     specialNotes: ''
@@ -135,10 +136,11 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel }) {
                       <div className="flex flex-wrap gap-4">
                         {[
                           { key: 'isGF', label: 'Gluten Free' },
-                          { key: 'isGFA', label: 'GF Available' },
+                          { key: 'isGFA', label: 'Gluten Free Available' },
                           { key: 'isVEG', label: 'Vegetarian' },
                           { key: 'isVGN', label: 'Vegan' },
-                          { key: 'isDFA', label: 'Dairy Free' }
+                          { key: 'isDFA', label: 'Dairy Free Available' },
+                          { key: 'isVGNA', label: 'Vegan Available' }
                         ].map(({ key, label }) => (
                           <div key={key} className="flex items-center space-x-2">
                             <Checkbox

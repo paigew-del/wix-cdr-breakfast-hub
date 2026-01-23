@@ -69,8 +69,9 @@ export default function UploadMenu({ onUploadComplete }) {
             isGF: accommodations.includes('gf') && !accommodations.includes('gfa'),
             isGFA: accommodations.includes('gfa'),
             isVEG: accommodations.includes('veg') && !accommodations.includes('vgn'),
-            isVGN: accommodations.includes('vgn'),
-            isDFA: accommodations.includes('dfa') || accommodations.includes('df')
+            isVGN: accommodations.includes('vgn') && !accommodations.includes('vgna'),
+            isDFA: accommodations.includes('dfa') || accommodations.includes('df'),
+            isVGNA: accommodations.includes('vgna')
           });
         });
 
@@ -114,8 +115,8 @@ export default function UploadMenu({ onUploadComplete }) {
             <ul className="text-xs text-slate-600 space-y-1 ml-4 list-disc">
               <li><strong>Required columns:</strong> week, date, food, allergy accommodations</li>
               <li><strong>Date format:</strong> YYYY-MM-DD (e.g., 2024-02-15)</li>
-              <li><strong>Allergy accommodations:</strong> Use GF, GFA, VEG, VGN, DFA (comma-separated)</li>
-              <li>Example: "GF, VEG" or "GFA, DFA"</li>
+              <li><strong>Allergy accommodations:</strong> Use GF, GFA, VEG, VGN, DFA, VGNA (comma-separated)</li>
+              <li>Example: "GF, VEG" or "GFA, DFA, VGNA"</li>
               <li>If you have Excel, save as CSV before uploading</li>
             </ul>
           </div>
