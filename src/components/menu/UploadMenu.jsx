@@ -40,7 +40,7 @@ export default function UploadMenu({ onUploadComplete }) {
                   week: { type: "string" },
                   date: { type: "string" },
                   food: { type: "string" },
-                  allergy_accommodations: { type: "string" }
+                  allergyAccommodations: { type: "string" }
                 }
               }
             }
@@ -61,7 +61,7 @@ export default function UploadMenu({ onUploadComplete }) {
           }
 
           // Parse allergy accommodations
-          const accommodations = (item.allergy_accommodations || '').toLowerCase();
+          const accommodations = (item.allergyAccommodations || item.allergy_accommodations || '').toLowerCase();
           
           menuByDate[item.date].menuItems.push({
             itemName: item.food,
@@ -113,7 +113,7 @@ export default function UploadMenu({ onUploadComplete }) {
           <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
             <p className="text-xs text-slate-700 font-medium mb-2">CSV Format Requirements:</p>
             <ul className="text-xs text-slate-600 space-y-1 ml-4 list-disc">
-              <li><strong>Required columns:</strong> week, date, food, allergy accommodations</li>
+              <li><strong>Required columns:</strong> week, date, food, allergyAccommodations (no spaces in header)</li>
               <li><strong>Date format:</strong> YYYY-MM-DD (e.g., 2024-02-15)</li>
               <li><strong>Allergy accommodations:</strong> Use GF, GFA, VEG, VGN, DFA, VGNA (comma-separated)</li>
               <li>Example: "GF, VEG" or "GFA, DFA, VGNA"</li>
