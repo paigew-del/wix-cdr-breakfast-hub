@@ -33,27 +33,39 @@ export default function UploadMenu({ onUploadComplete }) {
       // Upload file
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
 
-      // Extract data from file
-      const result = await base44.integrations.Core.ExtractDataFromUploadedFile({
-        file_url,
-        json_schema: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              date: { type: "string" },
-              food: { type: "string" }
-            },
-            required: ["date", "food"]
-          }
+      // Use InvokeLLM to parse the CSV with more flexibility
+      const csvResponse = await fetch(file_url);
+      const csvText = await csvResponse.text();
+      
+      const llmResult = await base44.integrations.Core.InvokeLLM({
+        prompt: `Parse this CSV data and extract menu items. Return an array of objects with: date (YYYY-MM-DD format), food (item name), and allergyAccommodations (comma-separated codes if present).
+
+CSV data:
+${csvText}`,
+        response_json_schema: {
+          type: "object",
+          properties: {
+            items: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  date: { type: "string" },
+                  food: { type: "string" },
+                  allergyAccommodations: { type: "string" }
+                },
+                required: ["date", "food"]
+              }
+            }
+          },
+          required: ["items"]
         }
       });
 
-      if (result.status === 'success' && result.output) {
+      if (llmResult && llmResult.items && llmResult.items.length > 0) {
         // Group by date
         const menuByDate = {};
-        const rows = Array.isArray(result.output) ? result.output : result.output.rows || [];
-        rows.forEach(item => {
+        llmResult.items.forEach(item => {
           if (!menuByDate[item.date]) {
             menuByDate[item.date] = {
               date: item.date,
@@ -62,15 +74,8 @@ export default function UploadMenu({ onUploadComplete }) {
             };
           }
 
-          // Parse allergy accommodations - check multiple possible column names
-          const accommodations = (
-            item.allergyAccommodations || 
-            item.allergy_accommodations || 
-            item.allergyaccommodations ||
-            item['allergy accommodations'] ||
-            item.allergies || 
-            ''
-          ).toLowerCase();
+          // Parse allergy accommodations
+          const accommodations = (item.allergyAccommodations || '').toLowerCase();
           
           menuByDate[item.date].menuItems.push({
             itemName: item.food,
@@ -91,16 +96,13 @@ export default function UploadMenu({ onUploadComplete }) {
         setFile(null);
         onUploadComplete();
       } else {
-        setStatus({ type: 'error', message: result.details || 'Failed to extract menu data. Please check your CSV format.' });
+        setStatus({ type: 'error', message: 'Failed to parse CSV. Please check your file format.' });
       }
     } catch (error) {
       console.error('Upload error:', error);
-      const errorMsg = error?.message || 'Upload failed';
       setStatus({ 
         type: 'error', 
-        message: errorMsg.includes('Invalid file') 
-          ? 'Invalid CSV format. Column headers must be exactly: week, date, food, allergyAccommodations (case-sensitive, no spaces)'
-          : errorMsg
+        message: 'Upload failed: ' + (error?.message || 'Unknown error')
       });
     } finally {
       setUploading(false);
