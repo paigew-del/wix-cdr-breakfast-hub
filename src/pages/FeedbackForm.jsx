@@ -48,7 +48,6 @@ export default function FeedbackForm() {
   const [formData, setFormData] = useState({
     employeeName: '',
     shiftStartTime: '',
-    shiftType: '',
     dateOfBreakfast: format(new Date(), 'yyyy-MM-dd'),
     varietyRating: 0,
     varietyComments: '',
@@ -107,7 +106,6 @@ export default function FeedbackForm() {
         setFormData({
           employeeName: '',
           shiftStartTime: '',
-          shiftType: '',
           dateOfBreakfast: format(new Date(), 'yyyy-MM-dd'),
           varietyRating: 0,
           varietyComments: '',
@@ -215,32 +213,14 @@ export default function FeedbackForm() {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="shift-time">Shift Start Time</Label>
-                      <Input
-                        id="shift-time"
-                        type="time"
-                        value={formData.shiftStartTime}
-                        onChange={(e) => setFormData({ ...formData, shiftStartTime: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="shift-type">Shift Type</Label>
-                      <Select
-                        value={formData.shiftType}
-                        onValueChange={(value) => setFormData({ ...formData, shiftType: value })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select shift" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Morning">Morning</SelectItem>
-                          <SelectItem value="Mid">Mid</SelectItem>
-                          <SelectItem value="Night">Night</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                  <div>
+                    <Label htmlFor="shift-time">Shift Start Time</Label>
+                    <Input
+                      id="shift-time"
+                      type="time"
+                      value={formData.shiftStartTime}
+                      onChange={(e) => setFormData({ ...formData, shiftStartTime: e.target.value })}
+                    />
                   </div>
                 </CardContent>
               </Card>
