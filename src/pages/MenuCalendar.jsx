@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from "@/components/ui/button";
-import { Plus, Calendar as CalendarIcon } from 'lucide-react';
+import { Plus, Calendar as CalendarIcon, X } from 'lucide-react';
 import MenuCard from '../components/menu/MenuCard';
 import MenuFilters from '../components/menu/MenuFilters';
 import UploadMenu from '../components/menu/UploadMenu';
 import ManualMenuEntry from '../components/menu/ManualMenuEntry';
+import DietaryBadge from '../components/menu/DietaryBadge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { addDays, format, parseISO, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isToday } from 'date-fns';
 
 export default function MenuCalendar() {
@@ -15,6 +17,7 @@ export default function MenuCalendar() {
   const [showUpload, setShowUpload] = useState(false);
   const [showManualEntry, setShowManualEntry] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState(null);
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -190,7 +193,10 @@ export default function MenuCalendar() {
                 key={idx}
                 className={`min-h-[120px] p-2 border-b border-r border-slate-100 ${
                   !isCurrentMonth ? 'bg-slate-50/50' : 'bg-white'
-                } ${isTodayDate ? 'ring-2 ring-amber-400 ring-inset' : ''}`}
+                } ${isTodayDate ? 'ring-2 ring-amber-400 ring-inset' : ''} ${
+                  menuDay ? 'cursor-pointer hover:bg-amber-50/50 transition-colors' : ''
+                }`}
+                onClick={() => menuDay && setSelectedDay(menuDay)}
               >
                 <div className={`text-sm font-medium mb-2 ${
                   !isCurrentMonth ? 'text-slate-400' : isTodayDate ? 'text-amber-600' : 'text-slate-700'
@@ -199,16 +205,8 @@ export default function MenuCalendar() {
                 </div>
                 
                 {menuDay && menuDay.menuItems && (
-                  <div className="space-y-1">
-                    {menuDay.menuItems.map((item, itemIdx) => (
-                      <div
-                        key={itemIdx}
-                        className="text-xs p-1.5 bg-amber-50 border border-amber-200 rounded text-slate-700 truncate hover:bg-amber-100 transition-colors"
-                        title={item.itemName}
-                      >
-                        {item.itemName}
-                      </div>
-                    ))}
+                  <div className="text-xs text-amber-600 font-medium">
+                    {menuDay.menuItems.length} item{menuDay.menuItems.length !== 1 ? 's' : ''}
                   </div>
                 )}
               </div>
@@ -216,6 +214,41 @@ export default function MenuCalendar() {
           })}
         </div>
       </div>
+
+      {/* Menu Detail Dialog */}
+      <Dialog open={!!selectedDay} onOpenChange={() => setSelectedDay(null)}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">
+              {selectedDay && format(parseISO(selectedDay.date), 'EEEE, MMMM d, yyyy')}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            {selectedDay?.menuItems?.map((item, idx) => (
+              <div key={idx} className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                <h3 className="font-semibold text-lg text-slate-900 mb-2">{item.itemName}</h3>
+                {item.description && (
+                  <p className="text-sm text-slate-600 mb-2">{item.description}</p>
+                )}
+                <div className="flex flex-wrap gap-2">
+                  {item.isGF && <DietaryBadge type="GF" />}
+                  {item.isGFA && <DietaryBadge type="GFA" />}
+                  {item.isVEG && <DietaryBadge type="VEG" />}
+                  {item.isVGN && <DietaryBadge type="VGN" />}
+                  {item.isDF && <DietaryBadge type="DF" />}
+                  {item.isDFA && <DietaryBadge type="DFA" />}
+                  {item.isVGNA && <DietaryBadge type="VGNA" />}
+                </div>
+              </div>
+            ))}
+            {selectedDay?.specialNotes && (
+              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <p className="text-sm text-slate-700"><strong>Note:</strong> {selectedDay.specialNotes}</p>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
