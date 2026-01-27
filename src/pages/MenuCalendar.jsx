@@ -130,7 +130,7 @@ export default function MenuCalendar() {
                 setShowManualEntry(false);
               }}
               variant={showUpload ? "outline" : "default"}
-              className={!showUpload ? "bg-amber-600 hover:bg-amber-700" : ""}
+              className={!showUpload ? "bg-blue-600 hover:bg-blue-700" : ""}
             >
               <Plus className="h-4 w-4 mr-2" />
               Upload CSV
@@ -141,7 +141,7 @@ export default function MenuCalendar() {
                 setShowUpload(false);
               }}
               variant={showManualEntry ? "outline" : "default"}
-              className={!showManualEntry ? "bg-teal-600 hover:bg-teal-700" : ""}
+              className={!showManualEntry ? "bg-blue-600 hover:bg-blue-700" : ""}
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Manually
@@ -193,19 +193,19 @@ export default function MenuCalendar() {
                 key={idx}
                 className={`min-h-[120px] p-2 border-b border-r border-slate-100 ${
                   !isCurrentMonth ? 'bg-slate-50/50' : 'bg-white'
-                } ${isTodayDate ? 'ring-2 ring-amber-400 ring-inset' : ''} ${
+                } ${isTodayDate ? 'ring-2 ring-blue-500 ring-inset' : ''} ${
                   menuDay ? 'cursor-pointer hover:bg-amber-50/50 transition-colors' : ''
                 }`}
                 onClick={() => menuDay && setSelectedDay(menuDay)}
               >
                 <div className={`text-sm font-medium mb-2 ${
-                  !isCurrentMonth ? 'text-slate-400' : isTodayDate ? 'text-amber-600' : 'text-slate-700'
+                  !isCurrentMonth ? 'text-slate-400' : isTodayDate ? 'text-blue-600' : 'text-slate-700'
                 }`}>
                   {format(day, 'd')}
                 </div>
                 
                 {menuDay && menuDay.menuItems && (
-                  <div className="text-xs text-amber-600 font-medium">
+                  <div className="text-xs text-blue-600 font-medium">
                     {menuDay.menuItems.length} item{menuDay.menuItems.length !== 1 ? 's' : ''}
                   </div>
                 )}

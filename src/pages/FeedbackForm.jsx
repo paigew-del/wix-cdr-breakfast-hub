@@ -33,7 +33,7 @@ const StarRating = ({ value, onChange, label }) => {
               className={cn(
                 "h-8 w-8 transition-colors",
                 (hover || value) >= star
-                  ? "fill-amber-400 text-amber-400"
+                  ? "fill-blue-500 text-blue-500"
                   : "text-slate-300"
               )}
             />
@@ -174,7 +174,7 @@ export default function FeedbackForm() {
           >
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-3">
-                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
+                <div className="h-12 w-12 rounded-full bg-blue-600 flex items-center justify-center">
                   <MessageSquare className="h-6 w-6 text-white" />
                 </div>
                 <div>
@@ -230,7 +230,7 @@ export default function FeedbackForm() {
                 <Card className="border-slate-200/60 shadow-sm">
                   <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2">
-                      <UtensilsCrossed className="h-5 w-5 text-amber-600" />
+                      <UtensilsCrossed className="h-5 w-5 text-blue-600" />
                       Rate Today's Menu
                     </CardTitle>
                     <CardDescription>How did you like each item?</CardDescription>
@@ -266,7 +266,7 @@ export default function FeedbackForm() {
                                   className={cn(
                                     "h-6 w-6 transition-colors",
                                     itemRating && itemRating.rating >= star
-                                      ? "fill-amber-400 text-amber-400"
+                                      ? "fill-blue-500 text-blue-500"
                                       : "text-slate-300"
                                   )}
                                 />
@@ -336,7 +336,7 @@ export default function FeedbackForm() {
                           onClick={() => setFormData({ ...formData, stockedAppropriately: option })}
                           className={cn(
                             "flex-1",
-                            formData.stockedAppropriately === option && "bg-amber-600 hover:bg-amber-700"
+                            formData.stockedAppropriately === option && "bg-blue-600 hover:bg-blue-700"
                           )}
                         >
                           {option}
@@ -391,7 +391,7 @@ export default function FeedbackForm() {
                           size="sm"
                           onClick={() => handleDietaryNeedsChange(need)}
                           className={cn(
-                            formData.employeeDietaryNeeds.includes(need) && "bg-teal-600 hover:bg-teal-700"
+                            formData.employeeDietaryNeeds.includes(need) && "bg-blue-600 hover:bg-blue-700"
                           )}
                         >
                           {need}
@@ -405,7 +405,7 @@ export default function FeedbackForm() {
               <Button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 h-12 text-base shadow-lg shadow-amber-500/20"
+                className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-base rounded-full"
               >
                 {submitting ? (
                   'Submitting...'

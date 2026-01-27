@@ -12,26 +12,26 @@ export default function Layout({ children, currentPageName }) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-amber-50/30">
+    <div className="min-h-screen bg-white">
       <style>{`
         :root {
-          --primary: 251 146 60;
+          --primary: 0 102 255;
           --primary-foreground: 255 255 255;
-          --accent: 20 184 166;
+          --accent: 0 102 255;
         }
       `}</style>
       
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+      <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link to={createPageUrl('MenuCalendar')} className="flex items-center gap-3 group">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:shadow-amber-500/40 transition-shadow">
-                <Coffee className="h-5 w-5 text-white" />
+            <Link to={createPageUrl('MenuCalendar')} className="flex items-center gap-3">
+              <div className="text-2xl font-bold tracking-tight text-black">
+                WIX
               </div>
+              <div className="h-6 w-px bg-gray-300"></div>
               <div>
-                <h1 className="text-xl font-semibold text-slate-900 tracking-tight">WIX CDR Breakfast</h1>
-                <p className="text-xs text-slate-500">Catering Management</p>
+                <h1 className="text-base font-medium text-gray-900">CDR Breakfast</h1>
               </div>
             </Link>
             
@@ -44,10 +44,10 @@ export default function Layout({ children, currentPageName }) {
                     key={item.name}
                     to={createPageUrl(item.name)}
                     className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
+                      "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all",
                       isActive
-                        ? "bg-amber-100 text-amber-900 shadow-sm"
-                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                        ? "bg-blue-600 text-white"
+                        : "text-gray-700 hover:bg-gray-100"
                     )}
                   >
                     <Icon className="h-4 w-4" />
@@ -61,7 +61,7 @@ export default function Layout({ children, currentPageName }) {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-gray-50 min-h-screen">
         {children}
       </main>
     </div>
