@@ -208,8 +208,17 @@ export default function MenuCalendar() {
                 </div>
                 
                 {menuDay && menuDay.menuItems && (
-                  <div className="text-xs font-medium px-2 py-1 rounded-full bg-blue-600 text-white inline-block">
-                    {menuDay.menuItems.length} item{menuDay.menuItems.length !== 1 ? 's' : ''}
+                  <div className="space-y-1">
+                    {menuDay.menuItems.slice(0, 3).map((item, itemIdx) => (
+                      <div key={itemIdx} className="text-xs text-gray-700 truncate">
+                        • {item.itemName}
+                      </div>
+                    ))}
+                    {menuDay.menuItems.length > 3 && (
+                      <div className="text-xs text-blue-600 font-medium">
+                        +{menuDay.menuItems.length - 3} more
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
