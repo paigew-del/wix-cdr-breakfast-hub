@@ -217,33 +217,42 @@ export default function MenuCalendar() {
 
       {/* Menu Detail Dialog */}
       <Dialog open={!!selectedDay} onOpenChange={() => setSelectedDay(null)}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto rounded-3xl">
           <DialogHeader>
-            <DialogTitle className="text-2xl">
+            <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               {selectedDay && format(parseISO(selectedDay.date), 'EEEE, MMMM d, yyyy')}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 mt-4">
-            {selectedDay?.menuItems?.map((item, idx) => (
-              <div key={idx} className="p-4 bg-slate-50 rounded-lg border border-slate-200">
-                <h3 className="font-semibold text-lg text-slate-900 mb-2">{item.itemName}</h3>
-                {item.description && (
-                  <p className="text-sm text-slate-600 mb-2">{item.description}</p>
-                )}
-                <div className="flex flex-wrap gap-2">
-                  {item.isGF && <DietaryBadge type="GF" />}
-                  {item.isGFA && <DietaryBadge type="GFA" />}
-                  {item.isVEG && <DietaryBadge type="VEG" />}
-                  {item.isVGN && <DietaryBadge type="VGN" />}
-                  {item.isDF && <DietaryBadge type="DF" />}
-                  {item.isDFA && <DietaryBadge type="DFA" />}
-                  {item.isVGNA && <DietaryBadge type="VGNA" />}
+            {selectedDay?.menuItems?.map((item, idx) => {
+              const gradients = [
+                'from-blue-500 to-purple-500',
+                'from-purple-500 to-pink-500',
+                'from-pink-500 to-rose-500',
+                'from-green-500 to-emerald-500',
+                'from-orange-500 to-amber-500'
+              ];
+              return (
+                <div key={idx} className={`p-5 bg-gradient-to-br ${gradients[idx % gradients.length]} rounded-2xl shadow-lg text-white transform hover:scale-105 transition-transform`}>
+                  <h3 className="font-bold text-xl mb-2">{item.itemName}</h3>
+                  {item.description && (
+                    <p className="text-sm text-white/90 mb-3">{item.description}</p>
+                  )}
+                  <div className="flex flex-wrap gap-2">
+                    {item.isGF && <DietaryBadge type="GF" />}
+                    {item.isGFA && <DietaryBadge type="GFA" />}
+                    {item.isVEG && <DietaryBadge type="VEG" />}
+                    {item.isVGN && <DietaryBadge type="VGN" />}
+                    {item.isDF && <DietaryBadge type="DF" />}
+                    {item.isDFA && <DietaryBadge type="DFA" />}
+                    {item.isVGNA && <DietaryBadge type="VGNA" />}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
             {selectedDay?.specialNotes && (
-              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-sm text-slate-700"><strong>Note:</strong> {selectedDay.specialNotes}</p>
+              <div className="p-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl border-2 border-blue-300">
+                <p className="text-sm text-slate-700 font-medium"><strong>Note:</strong> {selectedDay.specialNotes}</p>
               </div>
             )}
           </div>

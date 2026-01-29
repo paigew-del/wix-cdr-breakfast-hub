@@ -111,7 +111,7 @@ ${csvText}`,
   };
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200/60 p-6 shadow-sm">
+    <div className="bg-white/80 backdrop-blur-sm rounded-3xl border border-slate-200/60 p-6 shadow-xl">
       <div className="flex items-center gap-2 mb-4">
         <FileSpreadsheet className="h-5 w-5 text-blue-600" />
         <h3 className="font-semibold text-slate-900">Upload Menu (CSV Only)</h3>
@@ -155,7 +155,7 @@ ${csvText}`,
         <Button
           onClick={handleUpload}
           disabled={!file || uploading}
-          className="w-full bg-blue-600 hover:bg-blue-700 rounded-full"
+          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full shadow-lg hover:shadow-xl transition-all"
         >
           {uploading ? (
             <>Processing...</>
