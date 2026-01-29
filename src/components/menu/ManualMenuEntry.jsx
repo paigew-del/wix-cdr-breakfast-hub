@@ -80,9 +80,9 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel }) {
   };
 
   return (
-    <Card className="border-slate-200/60 shadow-sm">
+    <Card className="border-slate-200/60 shadow-xl rounded-3xl bg-white/80 backdrop-blur-sm">
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+        <CardTitle className="flex items-center justify-between text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
           <span>Add Menu Day Manually</span>
           <Button variant="ghost" size="sm" onClick={onCancel}>
             <X className="h-4 w-4" />
@@ -197,7 +197,7 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel }) {
           <Button
             onClick={handleSave}
             disabled={saving}
-            className="flex-1 bg-amber-600 hover:bg-amber-700"
+            className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-full shadow-lg hover:shadow-xl transition-all"
           >
             {saving ? (
               'Saving...'

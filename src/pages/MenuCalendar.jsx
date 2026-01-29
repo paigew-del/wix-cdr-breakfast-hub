@@ -93,16 +93,17 @@ export default function MenuCalendar() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               {format(currentMonth, 'MMMM yyyy')}
             </h1>
-            <p className="text-slate-600 mt-1">Breakfast Menu Calendar</p>
+            <p className="text-slate-600 mt-2 text-lg">Breakfast Menu Calendar</p>
           </div>
           <div className="flex gap-2">
             <Button
               variant="outline"
               size="sm"
               onClick={() => setCurrentMonth(addDays(currentMonth, -30))}
+              className="rounded-full hover:bg-blue-50"
             >
               ← Prev
             </Button>
@@ -110,6 +111,7 @@ export default function MenuCalendar() {
               variant="outline"
               size="sm"
               onClick={() => setCurrentMonth(new Date())}
+              className="rounded-full hover:bg-purple-50"
             >
               Today
             </Button>
@@ -117,6 +119,7 @@ export default function MenuCalendar() {
               variant="outline"
               size="sm"
               onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
+              className="rounded-full hover:bg-pink-50"
             >
               Next →
             </Button>
@@ -130,7 +133,7 @@ export default function MenuCalendar() {
                 setShowManualEntry(false);
               }}
               variant={showUpload ? "outline" : "default"}
-              className={!showUpload ? "bg-blue-600 hover:bg-blue-700" : ""}
+              className={!showUpload ? "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full shadow-lg hover:shadow-xl transition-all" : "rounded-full"}
             >
               <Plus className="h-4 w-4 mr-2" />
               Upload CSV
@@ -141,7 +144,7 @@ export default function MenuCalendar() {
                 setShowUpload(false);
               }}
               variant={showManualEntry ? "outline" : "default"}
-              className={!showManualEntry ? "bg-blue-600 hover:bg-blue-700" : ""}
+              className={!showManualEntry ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-full shadow-lg hover:shadow-xl transition-all" : "rounded-full"}
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Manually
@@ -170,42 +173,54 @@ export default function MenuCalendar() {
       />
 
       {/* Calendar Grid */}
-      <div className="bg-white rounded-xl border border-slate-200/60 shadow-sm overflow-hidden">
+      <div className="bg-white/80 backdrop-blur-sm rounded-3xl border border-gray-200 p-6 shadow-xl">
         {/* Day of Week Headers */}
-        <div className="grid grid-cols-7 border-b border-slate-200">
-          {weekDays.map(day => (
-            <div key={day} className="p-3 text-center font-semibold text-slate-700 text-sm bg-slate-50">
-              {day}
-            </div>
-          ))}
-        </div>
+        <div className="grid grid-cols-7 gap-2">
+          {weekDays.map((day, idx) => {
+            const colors = ['text-pink-600', 'text-blue-600', 'text-purple-600', 'text-green-600', 'text-orange-600', 'text-indigo-600', 'text-rose-600'];
+            return (
+              <div key={day} className={`px-2 py-3 text-center text-sm font-bold ${colors[idx]}`}>
+                {day}
+              </div>
+            );
+          })}
         
-        {/* Calendar Days */}
-        <div className="grid grid-cols-7">
+          {/* Calendar Days */}
           {calendarDays.map((day, idx) => {
             const dateStr = format(day, 'yyyy-MM-dd');
             const menuDay = menuByDate[dateStr];
             const isCurrentMonth = isSameMonth(day, currentMonth);
             const isTodayDate = isToday(day);
             
+            const gradients = [
+              'from-pink-500 to-rose-500',
+              'from-blue-500 to-cyan-500',
+              'from-purple-500 to-pink-500',
+              'from-green-500 to-emerald-500',
+              'from-orange-500 to-amber-500',
+              'from-indigo-500 to-purple-500',
+              'from-rose-500 to-pink-500'
+            ];
+            const dayGradient = gradients[day.getDay()];
+
             return (
               <div
                 key={idx}
-                className={`min-h-[120px] p-2 border-b border-r border-slate-100 ${
-                  !isCurrentMonth ? 'bg-slate-50/50' : 'bg-white'
-                } ${isTodayDate ? 'ring-2 ring-blue-500 ring-inset' : ''} ${
-                  menuDay ? 'cursor-pointer hover:bg-amber-50/50 transition-colors' : ''
+                className={`min-h-[120px] p-3 rounded-2xl transition-all ${
+                  !isCurrentMonth ? 'bg-gray-100/50' : 'bg-white shadow-sm'
+                } ${isTodayDate ? 'ring-2 ring-offset-2 ring-blue-500 shadow-lg' : ''} ${
+                  menuDay ? 'cursor-pointer hover:shadow-xl hover:scale-105' : ''
                 }`}
                 onClick={() => menuDay && setSelectedDay(menuDay)}
               >
-                <div className={`text-sm font-medium mb-2 ${
+                <div className={`text-sm font-bold mb-2 ${
                   !isCurrentMonth ? 'text-slate-400' : isTodayDate ? 'text-blue-600' : 'text-slate-700'
                 }`}>
                   {format(day, 'd')}
                 </div>
                 
                 {menuDay && menuDay.menuItems && (
-                  <div className="text-xs text-blue-600 font-medium">
+                  <div className={`text-xs font-semibold px-2 py-1 rounded-full bg-gradient-to-r ${dayGradient} text-white inline-block`}>
                     {menuDay.menuItems.length} item{menuDay.menuItems.length !== 1 ? 's' : ''}
                   </div>
                 )}
