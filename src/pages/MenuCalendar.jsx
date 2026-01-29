@@ -93,7 +93,7 @@ export default function MenuCalendar() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold text-blue-600">
               {format(currentMonth, 'MMMM yyyy')}
             </h1>
             <p className="text-slate-600 mt-2 text-lg">Breakfast Menu Calendar</p>
@@ -133,7 +133,7 @@ export default function MenuCalendar() {
                 setShowManualEntry(false);
               }}
               variant={showUpload ? "outline" : "default"}
-              className={!showUpload ? "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full shadow-lg hover:shadow-xl transition-all" : "rounded-full"}
+              className={!showUpload ? "bg-blue-600 hover:bg-blue-700 rounded-full" : "rounded-full"}
             >
               <Plus className="h-4 w-4 mr-2" />
               Upload CSV
@@ -144,7 +144,7 @@ export default function MenuCalendar() {
                 setShowUpload(false);
               }}
               variant={showManualEntry ? "outline" : "default"}
-              className={!showManualEntry ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-full shadow-lg hover:shadow-xl transition-all" : "rounded-full"}
+              className={!showManualEntry ? "bg-blue-600 hover:bg-blue-700 rounded-full" : "rounded-full"}
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Manually
@@ -173,13 +173,12 @@ export default function MenuCalendar() {
       />
 
       {/* Calendar Grid */}
-      <div className="bg-white/80 backdrop-blur-sm rounded-3xl border border-gray-200 p-6 shadow-xl">
+      <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
         {/* Day of Week Headers */}
         <div className="grid grid-cols-7 gap-2">
-          {weekDays.map((day, idx) => {
-            const colors = ['text-pink-600', 'text-blue-600', 'text-purple-600', 'text-green-600', 'text-orange-600', 'text-indigo-600', 'text-rose-600'];
+          {weekDays.map((day) => {
             return (
-              <div key={day} className={`px-2 py-3 text-center text-sm font-bold ${colors[idx]}`}>
+              <div key={day} className="px-2 py-3 text-center text-sm font-semibold text-gray-700">
                 {day}
               </div>
             );
@@ -192,35 +191,24 @@ export default function MenuCalendar() {
             const isCurrentMonth = isSameMonth(day, currentMonth);
             const isTodayDate = isToday(day);
             
-            const gradients = [
-              'from-pink-500 to-rose-500',
-              'from-blue-500 to-cyan-500',
-              'from-purple-500 to-pink-500',
-              'from-green-500 to-emerald-500',
-              'from-orange-500 to-amber-500',
-              'from-indigo-500 to-purple-500',
-              'from-rose-500 to-pink-500'
-            ];
-            const dayGradient = gradients[day.getDay()];
-
             return (
               <div
                 key={idx}
-                className={`min-h-[120px] p-3 rounded-2xl transition-all ${
-                  !isCurrentMonth ? 'bg-gray-100/50' : 'bg-white shadow-sm'
-                } ${isTodayDate ? 'ring-2 ring-offset-2 ring-blue-500 shadow-lg' : ''} ${
-                  menuDay ? 'cursor-pointer hover:shadow-xl hover:scale-105' : ''
+                className={`min-h-[120px] p-3 rounded-xl transition-all ${
+                  !isCurrentMonth ? 'bg-gray-50' : 'bg-white'
+                } ${isTodayDate ? 'ring-2 ring-blue-600' : ''} ${
+                  menuDay ? 'cursor-pointer hover:bg-blue-50' : ''
                 }`}
                 onClick={() => menuDay && setSelectedDay(menuDay)}
               >
-                <div className={`text-sm font-bold mb-2 ${
-                  !isCurrentMonth ? 'text-slate-400' : isTodayDate ? 'text-blue-600' : 'text-slate-700'
+                <div className={`text-sm font-semibold mb-2 ${
+                  !isCurrentMonth ? 'text-gray-400' : isTodayDate ? 'text-blue-600' : 'text-gray-900'
                 }`}>
                   {format(day, 'd')}
                 </div>
                 
                 {menuDay && menuDay.menuItems && (
-                  <div className={`text-xs font-semibold px-2 py-1 rounded-full bg-gradient-to-r ${dayGradient} text-white inline-block`}>
+                  <div className="text-xs font-medium px-2 py-1 rounded-full bg-blue-600 text-white inline-block">
                     {menuDay.menuItems.length} item{menuDay.menuItems.length !== 1 ? 's' : ''}
                   </div>
                 )}
@@ -232,26 +220,19 @@ export default function MenuCalendar() {
 
       {/* Menu Detail Dialog */}
       <Dialog open={!!selectedDay} onOpenChange={() => setSelectedDay(null)}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto rounded-3xl">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl">
           <DialogHeader>
-            <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <DialogTitle className="text-2xl font-bold text-gray-900">
               {selectedDay && format(parseISO(selectedDay.date), 'EEEE, MMMM d, yyyy')}
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 mt-4">
+          <div className="space-y-3 mt-4">
             {selectedDay?.menuItems?.map((item, idx) => {
-              const gradients = [
-                'from-blue-500 to-purple-500',
-                'from-purple-500 to-pink-500',
-                'from-pink-500 to-rose-500',
-                'from-green-500 to-emerald-500',
-                'from-orange-500 to-amber-500'
-              ];
               return (
-                <div key={idx} className={`p-5 bg-gradient-to-br ${gradients[idx % gradients.length]} rounded-2xl shadow-lg text-white transform hover:scale-105 transition-transform`}>
-                  <h3 className="font-bold text-xl mb-2">{item.itemName}</h3>
+                <div key={idx} className="p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-300 transition-colors">
+                  <h3 className="font-semibold text-lg text-gray-900 mb-2">{item.itemName}</h3>
                   {item.description && (
-                    <p className="text-sm text-white/90 mb-3">{item.description}</p>
+                    <p className="text-sm text-gray-600 mb-3">{item.description}</p>
                   )}
                   <div className="flex flex-wrap gap-2">
                     {item.isGF && <DietaryBadge type="GF" />}
@@ -266,8 +247,8 @@ export default function MenuCalendar() {
               );
             })}
             {selectedDay?.specialNotes && (
-              <div className="p-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl border-2 border-blue-300">
-                <p className="text-sm text-slate-700 font-medium"><strong>Note:</strong> {selectedDay.specialNotes}</p>
+              <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                <p className="text-sm text-gray-700"><strong>Note:</strong> {selectedDay.specialNotes}</p>
               </div>
             )}
           </div>

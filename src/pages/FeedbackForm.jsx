@@ -174,12 +174,12 @@ export default function FeedbackForm() {
           >
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-3">
-                <div className="h-14 w-14 rounded-3xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
-                  <MessageSquare className="h-7 w-7 text-white" />
+                <div className="h-12 w-12 rounded-2xl bg-blue-600 flex items-center justify-center">
+                  <MessageSquare className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Breakfast Feedback</h1>
-                  <p className="text-slate-600 text-lg mt-1">Help us improve your breakfast experience</p>
+                  <h1 className="text-3xl font-bold text-gray-900">Breakfast Feedback</h1>
+                  <p className="text-gray-600 mt-1">Help us improve your breakfast experience</p>
                 </div>
               </div>
             </div>
@@ -288,9 +288,9 @@ export default function FeedbackForm() {
               )}
 
               {/* Overall Ratings */}
-              <Card className="border-slate-200/60 shadow-xl rounded-3xl bg-white/80 backdrop-blur-sm">
+              <Card className="border-gray-200 shadow-sm rounded-2xl bg-white">
                 <CardHeader>
-                  <CardTitle className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Overall Experience</CardTitle>
+                  <CardTitle className="text-lg font-semibold text-gray-900">Overall Experience</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div>
@@ -405,7 +405,7 @@ export default function FeedbackForm() {
               <Button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 h-14 text-lg font-bold rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all"
+                className="w-full bg-blue-600 hover:bg-blue-700 h-12 text-base font-semibold rounded-full"
               >
                 {submitting ? (
                   'Submitting...'
