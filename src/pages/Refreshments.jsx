@@ -3,7 +3,8 @@ import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { AlertCircle, Coffee, Send } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { AlertCircle, Coffee, Send, Lightbulb } from 'lucide-react';
 import { toast } from 'sonner';
 
 const REFRESHMENT_SECTIONS = {
@@ -47,6 +48,8 @@ export default function Refreshments() {
   const [user, setUser] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+  const [suggestion, setSuggestion] = useState('');
+  const [submittingSuggestion, setSubmittingSuggestion] = useState(false);
 
   React.useEffect(() => {
     base44.auth.me().then(setUser).catch(() => {});
@@ -107,6 +110,33 @@ export default function Refreshments() {
       toast.error('Failed to submit report');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleSuggestionSubmit = async () => {
+    if (!suggestion.trim()) {
+      toast.error('Please enter a suggestion');
+      return;
+    }
+
+    setSubmittingSuggestion(true);
+    try {
+      await Promise.all(
+        adminUsers.map(admin =>
+          base44.integrations.Core.SendEmail({
+            to: admin.email,
+            subject: 'New Refreshment Suggestion - CDR Breakfast',
+            body: `A new refreshment suggestion has been submitted:\n\n${suggestion}\n\nSuggested by: ${user?.email || 'Anonymous'}`
+          })
+        )
+      );
+
+      toast.success('Suggestion submitted successfully');
+      setSuggestion('');
+    } catch (error) {
+      toast.error('Failed to submit suggestion');
+    } finally {
+      setSubmittingSuggestion(false);
     }
   };
 
@@ -187,6 +217,40 @@ export default function Refreshments() {
             </CardContent>
           </Card>
         )}
+
+        <Card className="border-gray-200 shadow-sm rounded-2xl bg-white">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Lightbulb className="h-5 w-5 text-blue-600" />
+              <CardTitle className="text-lg font-semibold text-gray-900">Suggest a Refreshment</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600 mb-4">
+              Have a snack or beverage you'd like to see in the office? Let the operations team know!
+            </p>
+            <Textarea
+              placeholder="E.g., Kombucha, trail mix, rice cakes..."
+              value={suggestion}
+              onChange={(e) => setSuggestion(e.target.value)}
+              className="mb-4 min-h-[100px]"
+            />
+            <Button
+              onClick={handleSuggestionSubmit}
+              disabled={submittingSuggestion || !suggestion.trim()}
+              className="bg-blue-600 hover:bg-blue-700 rounded-full"
+            >
+              {submittingSuggestion ? (
+                'Submitting...'
+              ) : (
+                <>
+                  <Send className="h-4 w-4 mr-2" />
+                  Submit Suggestion
+                </>
+              )}
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
