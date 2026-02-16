@@ -1,80 +1,113 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { AlertCircle, CheckCircle2, Coffee } from 'lucide-react';
+import { AlertCircle, Coffee, Send } from 'lucide-react';
 import { toast } from 'sonner';
 
-const REFRESHMENT_ITEMS = [
-  'Energy drinks',
-  'Sparkling water',
-  'V8 juice',
-  'Body armours',
-  'Teas',
-  'Milk',
-  'Orange juice',
-  'Coffee creamers',
-  'Chicken salad',
-  'Cottage cheese',
-  'Boiled eggs',
-  'String cheese',
-  'Cheese bites',
-  'Yogurt',
-  'Balance breaks',
-  'Applesauce',
-  'Uncrustables',
-  'Fresh fruit',
-  'Croissants',
-  'Fresh veggies',
-  'Dried fruit',
-  'Bread',
-  'Chips',
-  'Protein bars',
-  'Granola bars',
-  'Gum',
-  'Beef jerky'
-];
+const REFRESHMENT_SECTIONS = {
+  'Drinks': [
+    'Energy drinks',
+    'Sparkling water',
+    'V8 juice',
+    'Body armours',
+    'Teas',
+    'Milk',
+    'Orange juice',
+    'Coffee creamers'
+  ],
+  'Protein & Dairy': [
+    'Chicken salad',
+    'Cottage cheese',
+    'Boiled eggs',
+    'String cheese',
+    'Cheese bites',
+    'Yogurt',
+    'Balance breaks'
+  ],
+  'Snacks': [
+    'Applesauce',
+    'Uncrustables',
+    'Fresh fruit',
+    'Croissants',
+    'Fresh veggies',
+    'Dried fruit',
+    'Bread',
+    'Chips',
+    'Protein bars',
+    'Granola bars',
+    'Gum',
+    'Beef jerky'
+  ]
+};
 
 export default function Refreshments() {
   const queryClient = useQueryClient();
   const [user, setUser] = useState(null);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
 
   React.useEffect(() => {
     base44.auth.me().then(setUser).catch(() => {});
   }, []);
 
-  const { data: reports = [] } = useQuery({
-    queryKey: ['refreshmentReports'],
-    queryFn: () => base44.entities.RefreshmentReport.list('-created_date', 100),
+  const { data: adminUsers = [] } = useQuery({
+    queryKey: ['adminUsers'],
+    queryFn: async () => {
+      const users = await base44.entities.User.list();
+      return users.filter(u => u.role === 'admin');
+    },
     initialData: []
   });
 
-  const reportMutation = useMutation({
-    mutationFn: ({ itemName, status }) => 
-      base44.entities.RefreshmentReport.create({
-        itemName,
-        status,
-        reportedBy: user?.email || 'anonymous'
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['refreshmentReports'] });
-      toast.success('Status updated');
-    }
-  });
-
-  const getItemStatus = (itemName) => {
-    const itemReports = reports.filter(r => r.itemName === itemName);
-    if (itemReports.length === 0) return 'in_stock';
-    
-    const latestReport = itemReports[0];
-    return latestReport.status;
+  const toggleItem = (itemName) => {
+    setSelectedItems(prev => 
+      prev.includes(itemName) 
+        ? prev.filter(i => i !== itemName)
+        : [...prev, itemName]
+    );
   };
 
-  const handleToggleStock = (itemName) => {
-    const currentStatus = getItemStatus(itemName);
-    const newStatus = currentStatus === 'out_of_stock' ? 'restocked' : 'out_of_stock';
-    reportMutation.mutate({ itemName, status: newStatus });
+  const handleSubmit = async () => {
+    if (selectedItems.length === 0) {
+      toast.error('Please select at least one item');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      // Create reports for each item
+      await Promise.all(
+        selectedItems.map(itemName =>
+          base44.entities.RefreshmentReport.create({
+            itemName,
+            status: 'out_of_stock',
+            reportedBy: user?.email || 'anonymous'
+          })
+        )
+      );
+
+      // Send email to all admin users
+      const itemsList = selectedItems.join(', ');
+      await Promise.all(
+        adminUsers.map(admin =>
+          base44.integrations.Core.SendEmail({
+            to: admin.email,
+            subject: 'Out of Stock Alert - CDR Breakfast',
+            body: `The following items have been reported as out of stock:\n\n${selectedItems.map(item => `• ${item}`).join('\n')}\n\nReported by: ${user?.email || 'Anonymous'}`
+          })
+        )
+      );
+
+      toast.success('Report submitted successfully');
+      setSelectedItems([]);
+      queryClient.invalidateQueries({ queryKey: ['refreshmentReports'] });
+    } catch (error) {
+      toast.error('Failed to submit report');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -86,45 +119,75 @@ export default function Refreshments() {
           </div>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Refreshments</h1>
-            <p className="text-gray-600 mt-1">Report items that are out of stock</p>
+            <p className="text-gray-600 mt-1">Select items that are out of stock</p>
           </div>
         </div>
       </div>
 
-      <Card className="border-gray-200 shadow-sm rounded-2xl bg-white p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {REFRESHMENT_ITEMS.map((item) => {
-            const status = getItemStatus(item);
-            const isOutOfStock = status === 'out_of_stock';
-            
-            return (
-              <button
-                key={item}
-                onClick={() => handleToggleStock(item)}
-                className={`p-4 rounded-xl border-2 transition-all text-left ${
-                  isOutOfStock
-                    ? 'border-red-300 bg-red-50'
-                    : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50'
-                }`}
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <span className={`font-medium ${isOutOfStock ? 'text-red-900' : 'text-gray-900'}`}>
-                    {item}
-                  </span>
-                  {isOutOfStock ? (
-                    <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
+      <div className="space-y-6">
+        {Object.entries(REFRESHMENT_SECTIONS).map(([section, items]) => (
+          <Card key={section} className="border-gray-200 shadow-sm rounded-2xl bg-white">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-gray-900">{section}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {items.map((item) => {
+                  const isSelected = selectedItems.includes(item);
+                  
+                  return (
+                    <button
+                      key={item}
+                      onClick={() => toggleItem(item)}
+                      className={`p-3 rounded-xl border-2 transition-all text-left ${
+                        isSelected
+                          ? 'border-red-500 bg-red-50'
+                          : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <span className={`text-sm font-medium ${isSelected ? 'text-red-900' : 'text-gray-900'}`}>
+                          {item}
+                        </span>
+                        {isSelected && (
+                          <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+
+        {selectedItems.length > 0 && (
+          <Card className="border-blue-200 shadow-sm rounded-2xl bg-blue-50">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="font-semibold text-gray-900">{selectedItems.length} item{selectedItems.length !== 1 ? 's' : ''} selected</p>
+                  <p className="text-sm text-gray-600 mt-1">Click submit to notify admins</p>
+                </div>
+                <Button
+                  onClick={handleSubmit}
+                  disabled={submitting}
+                  className="bg-blue-600 hover:bg-blue-700 rounded-full"
+                >
+                  {submitting ? (
+                    'Submitting...'
                   ) : (
-                    <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0" />
+                    <>
+                      <Send className="h-4 w-4 mr-2" />
+                      Submit Report
+                    </>
                   )}
-                </div>
-                <div className={`text-xs mt-2 font-medium ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
-                  {isOutOfStock ? 'Out of Stock' : 'In Stock'}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </Card>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </div>
   );
 }
