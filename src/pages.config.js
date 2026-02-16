@@ -50,6 +50,7 @@
 import Analytics from './pages/Analytics';
 import FeedbackForm from './pages/FeedbackForm';
 import MenuCalendar from './pages/MenuCalendar';
+import Refreshments from './pages/Refreshments';
 import __Layout from './Layout.jsx';
 
 
@@ -57,6 +58,7 @@ export const PAGES = {
     "Analytics": Analytics,
     "FeedbackForm": FeedbackForm,
     "MenuCalendar": MenuCalendar,
+    "Refreshments": Refreshments,
 }
 
 export const pagesConfig = {

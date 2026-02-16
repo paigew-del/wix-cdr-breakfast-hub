@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 export default function Layout({ children, currentPageName }) {
   const navItems = [
     { name: 'MenuCalendar', label: 'Menu Calendar', icon: Calendar },
+    { name: 'Refreshments', label: 'Refreshments', icon: Coffee },
     { name: 'FeedbackForm', label: 'Feedback', icon: MessageSquare },
     { name: 'Analytics', label: 'Analytics', icon: BarChart3 }
   ];
