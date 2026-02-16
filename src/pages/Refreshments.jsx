@@ -155,6 +155,40 @@ export default function Refreshments() {
       </div>
 
       <div className="space-y-6">
+        <Card className="border-gray-200 shadow-sm rounded-2xl bg-white">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Lightbulb className="h-5 w-5 text-blue-600" />
+              <CardTitle className="text-lg font-semibold text-gray-900">Suggest a Refreshment</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600 mb-4">
+              Have a snack or beverage you'd like to see in the office? Let the operations team know!
+            </p>
+            <Textarea
+              placeholder="E.g., Kombucha, trail mix, rice cakes..."
+              value={suggestion}
+              onChange={(e) => setSuggestion(e.target.value)}
+              className="mb-4 min-h-[100px]"
+            />
+            <Button
+              onClick={handleSuggestionSubmit}
+              disabled={submittingSuggestion || !suggestion.trim()}
+              className="bg-blue-600 hover:bg-blue-700 rounded-full"
+            >
+              {submittingSuggestion ? (
+                'Submitting...'
+              ) : (
+                <>
+                  <Send className="h-4 w-4 mr-2" />
+                  Submit Suggestion
+                </>
+              )}
+            </Button>
+          </CardContent>
+        </Card>
+
         {Object.entries(REFRESHMENT_SECTIONS).map(([section, items]) => (
           <Card key={section} className="border-gray-200 shadow-sm rounded-2xl bg-white">
             <CardHeader>
@@ -217,40 +251,6 @@ export default function Refreshments() {
             </CardContent>
           </Card>
         )}
-
-        <Card className="border-gray-200 shadow-sm rounded-2xl bg-white">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Lightbulb className="h-5 w-5 text-blue-600" />
-              <CardTitle className="text-lg font-semibold text-gray-900">Suggest a Refreshment</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-gray-600 mb-4">
-              Have a snack or beverage you'd like to see in the office? Let the operations team know!
-            </p>
-            <Textarea
-              placeholder="E.g., Kombucha, trail mix, rice cakes..."
-              value={suggestion}
-              onChange={(e) => setSuggestion(e.target.value)}
-              className="mb-4 min-h-[100px]"
-            />
-            <Button
-              onClick={handleSuggestionSubmit}
-              disabled={submittingSuggestion || !suggestion.trim()}
-              className="bg-blue-600 hover:bg-blue-700 rounded-full"
-            >
-              {submittingSuggestion ? (
-                'Submitting...'
-              ) : (
-                <>
-                  <Send className="h-4 w-4 mr-2" />
-                  Submit Suggestion
-                </>
-              )}
-            </Button>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
