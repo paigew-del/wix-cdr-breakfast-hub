@@ -8,6 +8,11 @@ import { AlertCircle, Coffee, Send, Lightbulb } from 'lucide-react';
 import { toast } from 'sonner';
 
 const REFRESHMENT_SECTIONS = {
+  'Energy Drinks': [
+    'Alani Nu',
+    'Monster',
+    'Red Bull'
+  ],
   'Drinks': [
     'Sparkling water',
     'V8 juice',
