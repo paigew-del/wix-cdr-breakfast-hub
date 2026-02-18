@@ -9,10 +9,6 @@ import { toast } from 'sonner';
 
 const REFRESHMENT_SECTIONS = {
   'Drinks': [
-    'Energy drinks',
-    'Alani Nu',
-    'Monster',
-    'Red Bull',
     'Sparkling water',
     'V8 juice',
     'Body armours',
