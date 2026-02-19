@@ -239,8 +239,8 @@ export default function Refreshments() {
                       >
                         <div className="flex items-start justify-between gap-2">
                           <span className={`text-sm font-medium ${isSelected ? 'text-red-900' : 'text-gray-900'}`}>
-                            {item === 'Alani Nu' && isSelected
-                              ? selectedItems.find(i => i.startsWith('Alani Nu')) || 'Alani Nu'
+                            {FLAVOR_ITEMS.includes(item) && isSelected
+                              ? selectedItems.find(i => i.startsWith(item)) || item
                               : item}
                           </span>
                           {isSelected && (
