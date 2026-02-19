@@ -208,67 +208,77 @@ export default function Refreshments() {
           </CardContent>
         </Card>
 
-        {Object.entries(REFRESHMENT_SECTIONS).map(([section, items]) => (
-          <Card key={section} className="border-gray-200 shadow-sm rounded-2xl bg-white">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-900">{section}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                {items.map((item) => {
-                  const isSelected = FLAVOR_ITEMS.includes(item)
-                    ? selectedItems.some(i => i.startsWith(item))
-                    : selectedItems.includes(item);
-                  
-                  return (
-                    <div key={item} className="flex flex-col gap-2">
-                      <button
-                        onClick={() => toggleItem(item)}
-                        className={`p-3 rounded-xl border-2 transition-all text-left w-full ${
-                          isSelected
-                            ? 'border-red-500 bg-red-50'
-                            : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between gap-2">
-                          <span className={`text-sm font-medium ${isSelected ? 'text-red-900' : 'text-gray-900'}`}>
-                            {FLAVOR_ITEMS.includes(item) && isSelected
-                              ? selectedItems.find(i => i.startsWith(item)) || item
-                              : item}
-                          </span>
-                          {isSelected && (
-                            <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />
-                          )}
-                        </div>
-                      </button>
-                      {FLAVOR_ITEMS.includes(item) && showFlavorInput[item] && (
-                        <div className="flex flex-col gap-2 p-3 bg-blue-50 border border-blue-200 rounded-xl">
-                          <p className="text-xs text-blue-700 font-medium">Which flavor needs restocking?</p>
-                          <Input
-                            placeholder="e.g. Watermelon, Original..."
-                            value={flavorInputs[item]}
-                            onChange={(e) => setFlavorInputs(prev => ({ ...prev, [item]: e.target.value }))}
-                            onKeyDown={(e) => e.key === 'Enter' && handleFlavorConfirm(item)}
-                            className="text-sm"
-                            autoFocus
-                          />
-                          <div className="flex gap-2">
-                            <Button size="sm" onClick={() => handleFlavorConfirm(item)} className="bg-blue-600 hover:bg-blue-700 rounded-full text-xs flex-1">
-                              Confirm
-                            </Button>
-                            <Button size="sm" variant="outline" onClick={() => setShowFlavorInput(prev => ({ ...prev, [item]: false }))} className="rounded-full text-xs flex-1">
-                              Cancel
-                            </Button>
-                          </div>
-                        </div>
-                      )}
+        {Object.entries(REFRESHMENT_SECTIONS).map(([section, value]) => {
+          const isNested = typeof value === 'object' && !Array.isArray(value);
+
+          const renderItem = (item) => {
+            const isSelected = FLAVOR_ITEMS.includes(item)
+              ? selectedItems.some(i => i.startsWith(item))
+              : selectedItems.includes(item);
+            return (
+              <div key={item} className="flex flex-col gap-2">
+                <button
+                  onClick={() => toggleItem(item)}
+                  className={`p-3 rounded-xl border-2 transition-all text-left w-full ${
+                    isSelected ? 'border-red-500 bg-red-50' : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <span className={`text-sm font-medium ${isSelected ? 'text-red-900' : 'text-gray-900'}`}>
+                      {FLAVOR_ITEMS.includes(item) && isSelected
+                        ? selectedItems.find(i => i.startsWith(item)) || item
+                        : item}
+                    </span>
+                    {isSelected && <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />}
+                  </div>
+                </button>
+                {FLAVOR_ITEMS.includes(item) && showFlavorInput[item] && (
+                  <div className="flex flex-col gap-2 p-3 bg-blue-50 border border-blue-200 rounded-xl">
+                    <p className="text-xs text-blue-700 font-medium">Which flavor needs restocking?</p>
+                    <Input
+                      placeholder="e.g. Watermelon, Original..."
+                      value={flavorInputs[item]}
+                      onChange={(e) => setFlavorInputs(prev => ({ ...prev, [item]: e.target.value }))}
+                      onKeyDown={(e) => e.key === 'Enter' && handleFlavorConfirm(item)}
+                      className="text-sm"
+                      autoFocus
+                    />
+                    <div className="flex gap-2">
+                      <Button size="sm" onClick={() => handleFlavorConfirm(item)} className="bg-blue-600 hover:bg-blue-700 rounded-full text-xs flex-1">Confirm</Button>
+                      <Button size="sm" variant="outline" onClick={() => setShowFlavorInput(prev => ({ ...prev, [item]: false }))} className="rounded-full text-xs flex-1">Cancel</Button>
                     </div>
-                  );
-                })}
+                  </div>
+                )}
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            );
+          };
+
+          return (
+            <Card key={section} className="border-gray-200 shadow-sm rounded-2xl bg-white">
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold text-gray-900">{section}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {isNested ? (
+                  <div className="space-y-6">
+                    {Object.entries(value).map(([subSection, subItems]) => (
+                      <div key={subSection}>
+                        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">{subSection}</h3>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                          {subItems.map(renderItem)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {value.map(renderItem)}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          );
+        })}
 
         {selectedItems.length > 0 && (
           <Card className="border-blue-200 shadow-sm rounded-2xl bg-blue-50">
