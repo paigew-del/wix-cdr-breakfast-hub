@@ -72,11 +72,27 @@ export default function Refreshments() {
   });
 
   const toggleItem = (itemName) => {
+    if (itemName === 'Alani Nu') {
+      if (selectedItems.some(i => i.startsWith('Alani Nu'))) {
+        setSelectedItems(prev => prev.filter(i => !i.startsWith('Alani Nu')));
+        setShowAlaniNuInput(false);
+        setAlaniNuFlavor('');
+      } else {
+        setShowAlaniNuInput(true);
+      }
+      return;
+    }
     setSelectedItems(prev => 
       prev.includes(itemName) 
         ? prev.filter(i => i !== itemName)
         : [...prev, itemName]
     );
+  };
+
+  const handleAlaniNuConfirm = () => {
+    const label = alaniNuFlavor.trim() ? `Alani Nu (${alaniNuFlavor.trim()})` : 'Alani Nu';
+    setSelectedItems(prev => [...prev, label]);
+    setShowAlaniNuInput(false);
   };
 
   const handleSubmit = async () => {
