@@ -52,6 +52,8 @@ export default function Refreshments() {
   const queryClient = useQueryClient();
   const [user, setUser] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [alaniNuFlavor, setAlaniNuFlavor] = useState('');
+  const [showAlaniNuInput, setShowAlaniNuInput] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [suggestion, setSuggestion] = useState('');
   const [submittingSuggestion, setSubmittingSuggestion] = useState(false);
