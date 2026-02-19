@@ -220,27 +220,53 @@ export default function Refreshments() {
             <CardContent>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {items.map((item) => {
-                  const isSelected = selectedItems.includes(item);
+                  const isSelected = item === 'Alani Nu'
+                    ? selectedItems.some(i => i.startsWith('Alani Nu'))
+                    : selectedItems.includes(item);
                   
                   return (
-                    <button
-                      key={item}
-                      onClick={() => toggleItem(item)}
-                      className={`p-3 rounded-xl border-2 transition-all text-left ${
-                        isSelected
-                          ? 'border-red-500 bg-red-50'
-                          : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50'
-                      }`}
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <span className={`text-sm font-medium ${isSelected ? 'text-red-900' : 'text-gray-900'}`}>
-                          {item}
-                        </span>
-                        {isSelected && (
-                          <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />
-                        )}
-                      </div>
-                    </button>
+                    <div key={item} className="flex flex-col gap-2">
+                      <button
+                        onClick={() => toggleItem(item)}
+                        className={`p-3 rounded-xl border-2 transition-all text-left w-full ${
+                          isSelected
+                            ? 'border-red-500 bg-red-50'
+                            : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <span className={`text-sm font-medium ${isSelected ? 'text-red-900' : 'text-gray-900'}`}>
+                            {item === 'Alani Nu' && isSelected
+                              ? selectedItems.find(i => i.startsWith('Alani Nu')) || 'Alani Nu'
+                              : item}
+                          </span>
+                          {isSelected && (
+                            <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0" />
+                          )}
+                        </div>
+                      </button>
+                      {item === 'Alani Nu' && showAlaniNuInput && (
+                        <div className="flex flex-col gap-2 p-3 bg-blue-50 border border-blue-200 rounded-xl">
+                          <p className="text-xs text-blue-700 font-medium">Which flavor needs restocking?</p>
+                          <Input
+                            placeholder="e.g. Watermelon, Cosmic Stardust..."
+                            value={alaniNuFlavor}
+                            onChange={(e) => setAlaniNuFlavor(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleAlaniNuConfirm()}
+                            className="text-sm"
+                            autoFocus
+                          />
+                          <div className="flex gap-2">
+                            <Button size="sm" onClick={handleAlaniNuConfirm} className="bg-blue-600 hover:bg-blue-700 rounded-full text-xs flex-1">
+                              Confirm
+                            </Button>
+                            <Button size="sm" variant="outline" onClick={() => setShowAlaniNuInput(false)} className="rounded-full text-xs flex-1">
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
               </div>
