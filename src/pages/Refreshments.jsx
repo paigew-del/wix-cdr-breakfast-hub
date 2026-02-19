@@ -71,14 +71,16 @@ export default function Refreshments() {
     initialData: []
   });
 
+  const FLAVOR_ITEMS = ['Alani Nu', 'Monster', 'Red Bull'];
+
   const toggleItem = (itemName) => {
-    if (itemName === 'Alani Nu') {
-      if (selectedItems.some(i => i.startsWith('Alani Nu'))) {
-        setSelectedItems(prev => prev.filter(i => !i.startsWith('Alani Nu')));
-        setShowAlaniNuInput(false);
-        setAlaniNuFlavor('');
+    if (FLAVOR_ITEMS.includes(itemName)) {
+      if (selectedItems.some(i => i.startsWith(itemName))) {
+        setSelectedItems(prev => prev.filter(i => !i.startsWith(itemName)));
+        setShowFlavorInput(prev => ({ ...prev, [itemName]: false }));
+        setFlavorInputs(prev => ({ ...prev, [itemName]: '' }));
       } else {
-        setShowAlaniNuInput(true);
+        setShowFlavorInput(prev => ({ ...prev, [itemName]: true }));
       }
       return;
     }
@@ -89,10 +91,11 @@ export default function Refreshments() {
     );
   };
 
-  const handleAlaniNuConfirm = () => {
-    const label = alaniNuFlavor.trim() ? `Alani Nu (${alaniNuFlavor.trim()})` : 'Alani Nu';
+  const handleFlavorConfirm = (itemName) => {
+    const flavor = flavorInputs[itemName].trim();
+    const label = flavor ? `${itemName} (${flavor})` : itemName;
     setSelectedItems(prev => [...prev, label]);
-    setShowAlaniNuInput(false);
+    setShowFlavorInput(prev => ({ ...prev, [itemName]: false }));
   };
 
   const handleSubmit = async () => {
