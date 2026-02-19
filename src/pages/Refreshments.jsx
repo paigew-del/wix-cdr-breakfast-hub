@@ -248,22 +248,22 @@ export default function Refreshments() {
                           )}
                         </div>
                       </button>
-                      {item === 'Alani Nu' && showAlaniNuInput && (
+                      {FLAVOR_ITEMS.includes(item) && showFlavorInput[item] && (
                         <div className="flex flex-col gap-2 p-3 bg-blue-50 border border-blue-200 rounded-xl">
                           <p className="text-xs text-blue-700 font-medium">Which flavor needs restocking?</p>
                           <Input
-                            placeholder="e.g. Watermelon, Cosmic Stardust..."
-                            value={alaniNuFlavor}
-                            onChange={(e) => setAlaniNuFlavor(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleAlaniNuConfirm()}
+                            placeholder="e.g. Watermelon, Original..."
+                            value={flavorInputs[item]}
+                            onChange={(e) => setFlavorInputs(prev => ({ ...prev, [item]: e.target.value }))}
+                            onKeyDown={(e) => e.key === 'Enter' && handleFlavorConfirm(item)}
                             className="text-sm"
                             autoFocus
                           />
                           <div className="flex gap-2">
-                            <Button size="sm" onClick={handleAlaniNuConfirm} className="bg-blue-600 hover:bg-blue-700 rounded-full text-xs flex-1">
+                            <Button size="sm" onClick={() => handleFlavorConfirm(item)} className="bg-blue-600 hover:bg-blue-700 rounded-full text-xs flex-1">
                               Confirm
                             </Button>
-                            <Button size="sm" variant="outline" onClick={() => setShowAlaniNuInput(false)} className="rounded-full text-xs flex-1">
+                            <Button size="sm" variant="outline" onClick={() => setShowFlavorInput(prev => ({ ...prev, [item]: false }))} className="rounded-full text-xs flex-1">
                               Cancel
                             </Button>
                           </div>
