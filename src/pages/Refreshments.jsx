@@ -223,8 +223,8 @@ export default function Refreshments() {
             <CardContent>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {items.map((item) => {
-                  const isSelected = item === 'Alani Nu'
-                    ? selectedItems.some(i => i.startsWith('Alani Nu'))
+                  const isSelected = FLAVOR_ITEMS.includes(item)
+                    ? selectedItems.some(i => i.startsWith(item))
                     : selectedItems.includes(item);
                   
                   return (
