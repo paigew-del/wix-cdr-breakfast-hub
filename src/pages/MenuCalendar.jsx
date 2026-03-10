@@ -100,7 +100,7 @@ export default function MenuCalendar() {
             <h1 className="text-4xl font-bold text-blue-600">
               {format(currentMonth, 'MMMM yyyy')}
             </h1>
-            <p className="text-slate-600 mt-2 text-lg">Breakfast Menu Calendar</p>
+            <p className="text-slate-600 mt-2 text-lg">{office} — Breakfast Menu Calendar</p>
           </div>
           <div className="flex gap-2">
             <Button
@@ -159,7 +159,7 @@ export default function MenuCalendar() {
 
       {/* Upload Section (Admin Only) */}
       {isAdmin && showUpload && (
-        <UploadMenu onUploadComplete={handleUploadComplete} />
+        <UploadMenu onUploadComplete={handleUploadComplete} office={office} />
       )}
 
       {/* Manual Entry Section (Admin Only) */}
@@ -167,6 +167,7 @@ export default function MenuCalendar() {
         <ManualMenuEntry 
           onSaveComplete={handleManualSaveComplete}
           onCancel={() => setShowManualEntry(false)}
+          office={office}
         />
       )}
 
