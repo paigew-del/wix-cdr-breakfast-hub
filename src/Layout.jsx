@@ -35,27 +35,7 @@ export default function Layout({ children, currentPageName }) {
               </div>
             </Link>
             
-            <nav className="flex items-center gap-1">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = currentPageName === item.name;
-                return (
-                  <Link
-                    key={item.name}
-                    to={createPageUrl(item.name)}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all",
-                      isActive
-                        ? "bg-[#1E56C3] text-white"
-                        : "text-[#101585] hover:bg-[#8CBAFF]/20"
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span className="hidden sm:inline">{item.label}</span>
-                  </Link>
-                );
-              })}
-            </nav>
+            
           </div>
         </div>
       </header>
