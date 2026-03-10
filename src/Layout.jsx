@@ -26,7 +26,7 @@ export default function Layout({ children, currentPageName }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to={createPageUrl('MenuCalendar')} className="flex items-center gap-3">
-              <div className="text-2xl font-bold tracking-tight text-black">
+              <div className="text-2xl font-bold tracking-tight text-[#101585]">
                 WIX
               </div>
               <div className="h-6 w-px bg-gray-300"></div>
