@@ -8,6 +8,7 @@ import MenuFilters from '../components/menu/MenuFilters';
 import UploadMenu from '../components/menu/UploadMenu';
 import ManualMenuEntry from '../components/menu/ManualMenuEntry';
 import DietaryBadge from '../components/menu/DietaryBadge';
+import QuickFeedback from '../components/menu/QuickFeedback';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { addDays, format, parseISO, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isToday } from 'date-fns';
 
