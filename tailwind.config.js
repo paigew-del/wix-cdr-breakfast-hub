@@ -5,7 +5,7 @@ module.exports = {
   theme: {
   	extend: {
   		fontFamily: {
-  			sans: ['DM Sans', 'sans-serif'],
+  			sans: ['Wix Madefor Text', 'sans-serif'],
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
