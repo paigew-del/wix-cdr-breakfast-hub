@@ -46,8 +46,8 @@ export default function Layout({ children, currentPageName }) {
                     className={cn(
                       "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all",
                       isActive
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-700 hover:bg-gray-100"
+                        ? "bg-[#1E56C3] text-white"
+                        : "text-[#101585] hover:bg-[#8CBAFF]/20"
                     )}
                   >
                     <Icon className="h-4 w-4" />
