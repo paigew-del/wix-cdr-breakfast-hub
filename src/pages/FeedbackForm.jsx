@@ -45,6 +45,7 @@ const StarRating = ({ value, onChange, label }) => {
 };
 
 export default function FeedbackForm() {
+  const office = new URLSearchParams(window.location.search).get('office');
   const [formData, setFormData] = useState({
     employeeName: '',
     shiftStartTime: '',
