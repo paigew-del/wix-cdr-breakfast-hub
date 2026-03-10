@@ -60,7 +60,7 @@ export default function Home() {
             <span className="font-semibold text-[#101585]">{selectedOffice}</span> — What would you like to do?
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
-            {ACTION_CARDS.map(({ to, icon: Icon, title, description, color }) => (
+            {ACTION_CARDS.filter(card => card.title !== 'Menu Calendar' || selectedOffice === 'Cedar Rapids').map(({ to, icon: Icon, title, description, color }) => (
               <Link
                 key={to}
                 to={to}
