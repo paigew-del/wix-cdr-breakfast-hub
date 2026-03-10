@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] text-center px-4">
-      <h1 className="text-5xl font-bold text-[#101585] mb-3">CDR Breakfast</h1>
+      <h1 className="text-5xl font-bold text-[#101585] mb-3">US WIX Breakfast Hub</h1>
 
       {!selectedOffice ? (
         <>

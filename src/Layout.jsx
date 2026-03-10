@@ -22,7 +22,7 @@ export default function Layout({ children, currentPageName }) {
               </div>
               <div className="h-6 w-px bg-gray-300"></div>
               <div>
-                <h1 className="text-base font-medium text-gray-900">CDR Breakfast</h1>
+                <h1 className="text-base font-medium text-gray-900">US WIX Breakfast Hub</h1>
               </div>
             </Link>
             
