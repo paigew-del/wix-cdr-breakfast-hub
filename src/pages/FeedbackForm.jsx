@@ -225,68 +225,6 @@ export default function FeedbackForm() {
                 </CardContent>
               </Card>
 
-              {/* Menu Items Ratings */}
-              {menuDay && menuDay.menuItems && menuDay.menuItems.length > 0 && (
-                <Card className="border-slate-200/60 shadow-sm">
-                  <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <UtensilsCrossed className="h-5 w-5 text-blue-600" />
-                      Rate Today's Menu
-                    </CardTitle>
-                    <CardDescription>How did you like each item?</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {menuDay.menuItems.map((menuItem, idx) => {
-                      const itemRating = formData.menuItemRatings.find(r => r.itemName === menuItem.itemName);
-                      return (
-                        <div key={idx} className="p-4 bg-slate-50 rounded-lg space-y-3">
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <h4 className="font-medium text-slate-900">{menuItem.itemName}</h4>
-                              <div className="flex flex-wrap gap-1 mt-1">
-                                {menuItem.isGF && <DietaryBadge type="GF" />}
-                                {menuItem.isGFA && <DietaryBadge type="GFA" />}
-                                {menuItem.isVEG && <DietaryBadge type="VEG" />}
-                                {menuItem.isVGN && <DietaryBadge type="VGN" />}
-                                {menuItem.isDF && <DietaryBadge type="DF" />}
-                                {menuItem.isDFA && <DietaryBadge type="DFA" />}
-                                {menuItem.isVGNA && <DietaryBadge type="VGNA" />}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex gap-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <button
-                                key={star}
-                                type="button"
-                                onClick={() => updateMenuItemRating(menuItem.itemName, 'rating', star)}
-                                className="transition-transform hover:scale-110"
-                              >
-                                <Star
-                                  className={cn(
-                                    "h-6 w-6 transition-colors",
-                                    itemRating && itemRating.rating >= star
-                                      ? "fill-blue-500 text-blue-500"
-                                      : "text-slate-300"
-                                  )}
-                                />
-                              </button>
-                            ))}
-                          </div>
-                          <Textarea
-                            placeholder="Comments about this item..."
-                            value={itemRating?.comment || ''}
-                            onChange={(e) => updateMenuItemRating(menuItem.itemName, 'comment', e.target.value)}
-                            rows={2}
-                            className="text-sm"
-                          />
-                        </div>
-                      );
-                    })}
-                  </CardContent>
-                </Card>
-              )}
-
               {/* Overall Ratings */}
               <Card className="border-gray-200 shadow-sm rounded-2xl bg-white">
                 <CardHeader>
@@ -401,6 +339,68 @@ export default function FeedbackForm() {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Menu Items Ratings */}
+              {menuDay && menuDay.menuItems && menuDay.menuItems.length > 0 && (
+                <Card className="border-slate-200/60 shadow-sm">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <UtensilsCrossed className="h-5 w-5 text-blue-600" />
+                      Rate Today's Menu
+                    </CardTitle>
+                    <CardDescription>How did you like each item?</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {menuDay.menuItems.map((menuItem, idx) => {
+                      const itemRating = formData.menuItemRatings.find(r => r.itemName === menuItem.itemName);
+                      return (
+                        <div key={idx} className="p-4 bg-slate-50 rounded-lg space-y-3">
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <h4 className="font-medium text-slate-900">{menuItem.itemName}</h4>
+                              <div className="flex flex-wrap gap-1 mt-1">
+                                {menuItem.isGF && <DietaryBadge type="GF" />}
+                                {menuItem.isGFA && <DietaryBadge type="GFA" />}
+                                {menuItem.isVEG && <DietaryBadge type="VEG" />}
+                                {menuItem.isVGN && <DietaryBadge type="VGN" />}
+                                {menuItem.isDF && <DietaryBadge type="DF" />}
+                                {menuItem.isDFA && <DietaryBadge type="DFA" />}
+                                {menuItem.isVGNA && <DietaryBadge type="VGNA" />}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                key={star}
+                                type="button"
+                                onClick={() => updateMenuItemRating(menuItem.itemName, 'rating', star)}
+                                className="transition-transform hover:scale-110"
+                              >
+                                <Star
+                                  className={cn(
+                                    "h-6 w-6 transition-colors",
+                                    itemRating && itemRating.rating >= star
+                                      ? "fill-blue-500 text-blue-500"
+                                      : "text-slate-300"
+                                  )}
+                                />
+                              </button>
+                            ))}
+                          </div>
+                          <Textarea
+                            placeholder="Comments about this item..."
+                            value={itemRating?.comment || ''}
+                            onChange={(e) => updateMenuItemRating(menuItem.itemName, 'comment', e.target.value)}
+                            rows={2}
+                            className="text-sm"
+                          />
+                        </div>
+                      );
+                    })}
+                  </CardContent>
+                </Card>
+              )}
 
               <Button
                 type="submit"
