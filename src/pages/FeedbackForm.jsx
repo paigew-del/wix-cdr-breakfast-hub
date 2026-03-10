@@ -69,7 +69,9 @@ export default function FeedbackForm() {
   const { data: menuDay } = useQuery({
     queryKey: ['menuDay', formData.dateOfBreakfast],
     queryFn: async () => {
-      const menus = await base44.entities.MenuDay.filter({ date: formData.dateOfBreakfast });
+      const filter = { date: formData.dateOfBreakfast };
+      if (office) filter.office = office;
+      const menus = await base44.entities.MenuDay.filter(filter);
       return menus[0] || null;
     },
     enabled: !!formData.dateOfBreakfast
