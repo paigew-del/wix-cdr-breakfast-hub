@@ -6,7 +6,7 @@ import { Upload, FileSpreadsheet, AlertCircle, CheckCircle2 } from 'lucide-react
 import { base44 } from '@/api/base44Client';
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-export default function UploadMenu({ onUploadComplete }) {
+export default function UploadMenu({ onUploadComplete, office }) {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [status, setStatus] = useState(null);
@@ -69,6 +69,7 @@ ${csvText}`,
           if (!menuByDate[item.date]) {
             menuByDate[item.date] = {
               date: item.date,
+              office: office,
               menuItems: [],
               specialNotes: ''
             };

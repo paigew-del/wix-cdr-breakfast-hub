@@ -9,9 +9,10 @@ import { Plus, Trash2, Save, X } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { format } from 'date-fns';
 
-export default function ManualMenuEntry({ onSaveComplete, onCancel }) {
+export default function ManualMenuEntry({ onSaveComplete, onCancel, office }) {
   const [menuDay, setMenuDay] = useState({
     date: format(new Date(), 'yyyy-MM-dd'),
+    office: office,
     menuItems: [
       {
         itemName: '',
@@ -70,7 +71,7 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel }) {
 
     setSaving(true);
     try {
-      await base44.entities.MenuDay.create(menuDay);
+      await base44.entities.MenuDay.create({ ...menuDay, office });
       onSaveComplete();
     } catch (error) {
       alert('Error saving menu: ' + error.message);
