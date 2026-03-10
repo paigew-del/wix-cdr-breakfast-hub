@@ -13,6 +13,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { addDays, format, parseISO, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isToday } from 'date-fns';
 
 export default function MenuCalendar() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const office = urlParams.get('office') || 'Cedar Rapids';
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [showUpload, setShowUpload] = useState(false);
@@ -29,9 +32,9 @@ export default function MenuCalendar() {
   }, []);
 
   const { data: menuDays = [], isLoading, refetch } = useQuery({
-    queryKey: ['menuDays'],
+    queryKey: ['menuDays', office],
     queryFn: async () => {
-      const days = await base44.entities.MenuDay.list('-date');
+      const days = await base44.entities.MenuDay.filter({ office });
       return days.sort((a, b) => new Date(a.date) - new Date(b.date));
     }
   });

@@ -61,10 +61,10 @@ export default function Home() {
             <span className="font-semibold text-[#101585]">{selectedOffice}</span> — What would you like to do?
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
-            {ACTION_CARDS.filter(card => card.title !== 'Menu Calendar' || selectedOffice === 'Cedar Rapids').map(({ to, icon: Icon, title, description, color }) => (
+            {ACTION_CARDS.map(({ to, icon: Icon, title, description, color }) => (
               <Link
                 key={to}
-                to={to}
+                to={`${to}?office=${encodeURIComponent(selectedOffice)}`}
                 className="group flex flex-col items-center gap-4 p-8 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all"
               >
                 <div className={`${color} text-white rounded-2xl p-4 group-hover:scale-110 transition-transform`}>
