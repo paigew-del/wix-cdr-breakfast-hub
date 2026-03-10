@@ -262,7 +262,6 @@ export default function MenuCalendar() {
                 <p className="text-sm text-gray-700"><strong>Note:</strong> {selectedDay.specialNotes}</p>
               </div>
             )}
-            {selectedDay && <QuickFeedback menuDay={selectedDay} />}
           </div>
         </DialogContent>
       </Dialog>
