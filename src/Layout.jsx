@@ -1,8 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { createPageUrl } from './utils';
-import { Calendar, MessageSquare, BarChart3, Coffee } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 export default function Layout({ children, currentPageName }) {
   const navItems = [
