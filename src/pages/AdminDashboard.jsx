@@ -44,6 +44,18 @@ export default function AdminDashboard() {
     enabled: !!isAdmin,
   });
 
+  const { data: officeRecords = [], refetch: refetchOffices } = useQuery({
+    queryKey: ['office-locations'],
+    queryFn: () => base44.entities.OfficeLocation.list(),
+  });
+
+  const OFFICES = useMemo(() => officeRecords.map(o => o.name), [officeRecords]);
+  const OFFICE_COLORS = useMemo(() => {
+    const map = {};
+    officeRecords.forEach((o, i) => { map[o.name] = OFFICE_COLORS_DEFAULT[i % OFFICE_COLORS_DEFAULT.length]; });
+    return map;
+  }, [officeRecords]);
+
   const pendingUsers = users.filter(u => u.approval_status === 'pending' || (!u.approval_status && u.office));
   const approvedUsers = users.filter(u => u.approval_status === 'approved');
 
