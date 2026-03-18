@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import {
   BarChart2, Users, CalendarDays, CheckCircle2, XCircle, Clock,
   AlertCircle, MapPin, ChevronRight, UtensilsCrossed, Upload,
-  Coffee, Package, RefreshCw, UserPlus, Mail, MessageSquare, Download, ShieldAlert
+  UserPlus, Mail, MessageSquare, Download, ShieldAlert
 } from 'lucide-react';
 import UploadMenu from '../components/menu/UploadMenu';
 import ManualMenuEntry from '../components/menu/ManualMenuEntry';
