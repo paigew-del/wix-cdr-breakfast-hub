@@ -109,10 +109,12 @@ export default function UserProfile() {
         </CardHeader>
         <CardContent className="flex items-center gap-6">
           <div className="relative flex-shrink-0">
-            <Avatar className="h-24 w-24">
-              <AvatarImage src={profile.photo_url} />
-              <AvatarFallback className="text-2xl bg-blue-100 text-blue-700">{initials}</AvatarFallback>
-            </Avatar>
+            <DraggablePhoto
+              photoUrl={profile.photo_url}
+              position={profile.photo_position}
+              onPositionChange={(pos) => setProfile((p) => ({ ...p, photo_position: pos }))}
+              initials={initials}
+            />
             <label className="absolute -bottom-1 -right-1 bg-blue-600 text-white rounded-full p-1.5 cursor-pointer hover:bg-blue-700 transition-colors">
               <Camera className="h-4 w-4" />
               <input type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} disabled={uploading} />
