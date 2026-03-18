@@ -312,6 +312,81 @@ export default function Analytics() {
           </CardContent>
         </Card>
       </div>
+      {/* Dietary Restrictions & Allergy Report */}
+      <Card className="border-slate-200/60 shadow-sm">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <ShieldAlert className="h-5 w-5 text-orange-500" />
+            Employee Dietary Restrictions & Allergies
+          </CardTitle>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              const usersWithNeeds = users.filter(u => (u.dietary_restrictions?.length > 0) || u.allergies);
+              const csvContent = [
+                ['Name', 'Email', 'Office', 'Dietary Restrictions', 'Food Allergies', 'Additional Notes'],
+                ...usersWithNeeds.map(u => [
+                  u.full_name || '',
+                  u.email || '',
+                  u.office || '',
+                  (u.dietary_restrictions || []).join('; '),
+                  u.allergies || '',
+                  u.other_notes || ''
+                ])
+              ].map(row => row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+              const blob = new Blob([csvContent], { type: 'text/csv' });
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'dietary-restrictions-report.csv';
+              a.click();
+            }}
+          >
+            <Download className="h-4 w-4 mr-1" /> Export CSV
+          </Button>
+        </CardHeader>
+        <CardContent>
+          {users.filter(u => (u.dietary_restrictions?.length > 0) || u.allergies).length === 0 ? (
+            <p className="text-sm text-slate-500 text-center py-6">No users have filled in dietary restrictions or allergies yet.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200">
+                    <th className="text-left py-2 pr-4 font-medium text-slate-600">Employee</th>
+                    <th className="text-left py-2 pr-4 font-medium text-slate-600">Office</th>
+                    <th className="text-left py-2 pr-4 font-medium text-slate-600">Dietary Restrictions</th>
+                    <th className="text-left py-2 font-medium text-slate-600">Food Allergies</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users
+                    .filter(u => (u.dietary_restrictions?.length > 0) || u.allergies)
+                    .map((u, idx) => (
+                      <tr key={idx} className="border-b border-slate-100 hover:bg-slate-50">
+                        <td className="py-3 pr-4">
+                          <div className="font-medium text-slate-900">{u.full_name || '—'}</div>
+                          <div className="text-xs text-slate-500">{u.email}</div>
+                        </td>
+                        <td className="py-3 pr-4 text-slate-700">{u.office || '—'}</td>
+                        <td className="py-3 pr-4">
+                          <div className="flex flex-wrap gap-1">
+                            {(u.dietary_restrictions || []).map((r, i) => (
+                              <span key={i} className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">{r}</span>
+                            ))}
+                            {(!u.dietary_restrictions || u.dietary_restrictions.length === 0) && <span className="text-slate-400 text-xs">None</span>}
+                          </div>
+                        </td>
+                        <td className="py-3 text-slate-700">{u.allergies || <span className="text-slate-400">None listed</span>}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
