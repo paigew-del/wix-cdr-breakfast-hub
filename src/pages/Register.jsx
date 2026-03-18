@@ -182,6 +182,7 @@ export default function Register({ user, onSubmitted }) {
           <CardContent className="space-y-4">
             <div>
               <Label>Food Allergies</Label>
+              <p className="text-sm text-gray-500 mt-1 mb-1">Please list specific food allergies that cause a reaction — not food preferences or dislikes.</p>
               <Textarea
                 className="mt-1"
                 placeholder="List any food allergies (e.g. peanuts, shellfish, eggs...)"
