@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import UserProfile from './pages/UserProfile';
 import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
+import UserManagement from './pages/UserManagement';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
