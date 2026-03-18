@@ -246,9 +246,7 @@ export default function AdminDashboard() {
       )}
 
       {/* Users by Office */}
-      <div className="grid grid-cols-1 gap-6">
-        {/* Users by Office */}
-        <Card className="rounded-2xl border-gray-200 shadow-sm bg-white">
+      <Card className="rounded-2xl border-gray-200 shadow-sm bg-white">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
               <MapPin className="h-5 w-5 text-blue-600" /> Users by Office
