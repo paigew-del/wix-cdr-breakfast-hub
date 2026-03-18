@@ -34,6 +34,7 @@ export default function UserProfile() {
     allergies: '',
     other_notes: '',
     photo_url: '',
+    photo_position: { x: 0, y: 0 },
   });
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
