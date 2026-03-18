@@ -165,15 +165,6 @@ export default function AdminDashboard() {
             </div>
           </CardContent>
         </Card>
-        <Card className="rounded-2xl border-red-100 shadow-sm bg-red-50">
-          <CardContent className="pt-5 pb-5 flex items-center gap-3">
-            <div className="bg-red-100 rounded-xl p-2.5"><Package className="h-5 w-5 text-red-500" /></div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{refreshmentReports.length}</p>
-              <p className="text-xs text-gray-500">Out of Stock</p>
-            </div>
-          </CardContent>
-        </Card>
         <Card className="rounded-2xl border-gray-200 shadow-sm bg-white">
           <CardContent className="pt-5 pb-5 flex items-center gap-3">
             <div className="bg-purple-100 rounded-xl p-2.5"><UtensilsCrossed className="h-5 w-5 text-purple-600" /></div>
