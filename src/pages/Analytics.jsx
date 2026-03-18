@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Star, Package, AlertCircle, TrendingUp, Download, Calendar, Users, ShieldAlert } from 'lucide-react';
+import { Star, Package, AlertCircle, TrendingUp, Download, Calendar, Users, ShieldAlert, CheckCircle2, XCircle, Clock } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
 import MetricCard from '../components/analytics/MetricCard';
 import { format, parseISO, subDays } from 'date-fns';
 
