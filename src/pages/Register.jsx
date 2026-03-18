@@ -11,6 +11,7 @@ import { Camera, CheckCircle2, MapPin, AlertTriangle, UtensilsCrossed } from 'lu
 import { cn } from '@/lib/utils';
 
 const DIETARY_OPTIONS = [
+  { key: 'None', label: 'None' },
   { key: 'GF', label: 'Gluten Free' },
   { key: 'GFA', label: 'Gluten Free Available' },
   { key: 'VEG', label: 'Vegetarian' },
