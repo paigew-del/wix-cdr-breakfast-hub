@@ -73,12 +73,6 @@ export default function AdminDashboard() {
     toast.success(`${user.full_name} rejected`);
   };
 
-  const handleRestock = async (report) => {
-    await base44.entities.RefreshmentReport.update(report.id, { status: 'restocked' });
-    refetchReports();
-    toast.success(`${report.itemName} marked as restocked`);
-  };
-
   const handleInvite = async () => {
     if (!inviteEmail.trim() || !inviteEmail.includes('@')) {
       toast.error('Please enter a valid email address');
