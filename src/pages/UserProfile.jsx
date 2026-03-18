@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Camera, Save, User, MapPin, AlertTriangle, UtensilsCrossed, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import FeedbackHistory from '../components/feedback/FeedbackHistory';
+import DraggablePhoto from '../components/profile/DraggablePhoto';
 
 const DIETARY_OPTIONS = [
   { key: 'None', label: 'None' },
