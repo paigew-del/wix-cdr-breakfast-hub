@@ -54,6 +54,7 @@ export default function FeedbackForm() {
       setFormData(prev => ({
         ...prev,
         employeeName: u?.full_name || '',
+        employeeEmail: u?.email || '',
         shiftStartTime: u?.shift_start_time || '',
       }));
     });
