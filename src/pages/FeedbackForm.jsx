@@ -123,6 +123,7 @@ export default function FeedbackForm() {
       setTimeout(() => {
         setFormData({
           employeeName: '',
+          employeeEmail: '',
           shiftStartTime: '',
           dateOfBreakfast: format(new Date(), 'yyyy-MM-dd'),
           varietyRating: 0,
