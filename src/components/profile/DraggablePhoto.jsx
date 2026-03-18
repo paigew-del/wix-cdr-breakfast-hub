@@ -3,7 +3,6 @@ import React, { useState, useRef, useCallback } from 'react';
 export default function DraggablePhoto({ photoUrl, position, onPositionChange, initials }) {
   const [dragging, setDragging] = useState(false);
   const dragStart = useRef(null);
-  const containerRef = useRef(null);
 
   const handleMouseDown = useCallback((e) => {
     if (!photoUrl) return;
@@ -63,7 +62,6 @@ export default function DraggablePhoto({ photoUrl, position, onPositionChange, i
 
   return (
     <div
-      ref={containerRef}
       className="h-24 w-24 rounded-full overflow-hidden border-2 border-blue-200 bg-blue-100 flex items-center justify-center select-none"
       style={{ cursor: photoUrl ? (dragging ? 'grabbing' : 'grab') : 'default' }}
       onMouseDown={handleMouseDown}
@@ -80,13 +78,10 @@ export default function DraggablePhoto({ photoUrl, position, onPositionChange, i
           alt="Profile"
           draggable={false}
           style={{
-            position: 'relative',
-            left: position.x,
-            top: position.y,
-            minWidth: '100%',
-            minHeight: '100%',
-            maxWidth: 'none',
-            objectFit: 'none',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: `calc(50% + ${position.x}px) calc(50% + ${position.y}px)`,
             pointerEvents: 'none',
           }}
         />
