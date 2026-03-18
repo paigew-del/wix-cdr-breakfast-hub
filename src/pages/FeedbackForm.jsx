@@ -61,6 +61,7 @@ export default function FeedbackForm() {
 
   const [formData, setFormData] = useState({
     employeeName: '',
+    employeeEmail: '',
     shiftStartTime: '',
     dateOfBreakfast: format(new Date(), 'yyyy-MM-dd'),
     varietyRating: 0,
