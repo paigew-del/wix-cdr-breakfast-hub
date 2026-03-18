@@ -245,41 +245,8 @@ export default function AdminDashboard() {
         </Card>
       )}
 
-      {/* Two-col row: Out of Stock + Users by Office */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Out of Stock Reports */}
-        <Card className="rounded-2xl border-gray-200 shadow-sm bg-white">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
-              <Package className="h-5 w-5 text-red-500" /> Out of Stock Reports
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {refreshmentReports.length === 0 ? (
-              <p className="text-center text-gray-400 text-sm py-6">No out-of-stock items reported 🎉</p>
-            ) : (
-              <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
-                {refreshmentReports.map(r => (
-                  <div key={r.id} className="flex items-center justify-between bg-red-50 border border-red-100 rounded-xl px-4 py-2.5">
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">{r.itemName}</p>
-                      <p className="text-xs text-gray-500">Reported by {r.reportedBy || 'unknown'}</p>
-                    </div>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="rounded-full text-green-700 border-green-300 hover:bg-green-50"
-                      onClick={() => handleRestock(r)}
-                    >
-                      <RefreshCw className="h-3.5 w-3.5 mr-1" /> Restocked
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
+      {/* Users by Office */}
+      <div className="grid grid-cols-1 gap-6">
         {/* Users by Office */}
         <Card className="rounded-2xl border-gray-200 shadow-sm bg-white">
           <CardHeader>
