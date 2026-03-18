@@ -195,6 +195,46 @@ export default function Analytics() {
         </Button>
       </div>
 
+      {/* Pending User Approvals */}
+      {pendingUsers.length > 0 && (
+        <Card className="border-orange-200 bg-orange-50 shadow-sm rounded-2xl">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg text-orange-800">
+              <Clock className="h-5 w-5 text-orange-500" />
+              Pending User Approvals ({pendingUsers.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {pendingUsers.map((u) => (
+                <div key={u.id} className="flex items-center justify-between bg-white rounded-xl p-4 border border-orange-100">
+                  <div>
+                    <p className="font-semibold text-gray-900">{u.full_name}</p>
+                    <p className="text-sm text-gray-500">{u.email} · {u.office || 'No office'}</p>
+                    {u.allergies && <p className="text-xs text-orange-700 mt-1">Allergies: {u.allergies}</p>}
+                    {u.dietary_restrictions?.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {u.dietary_restrictions.map(r => (
+                          <span key={r} className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">{r}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex gap-2 ml-4 flex-shrink-0">
+                    <Button size="sm" className="bg-green-600 hover:bg-green-700 rounded-full" onClick={() => handleApprove(u)}>
+                      <CheckCircle2 className="h-4 w-4 mr-1" /> Approve
+                    </Button>
+                    <Button size="sm" variant="outline" className="text-red-600 border-red-300 hover:bg-red-50 rounded-full" onClick={() => handleReject(u)}>
+                      <XCircle className="h-4 w-4 mr-1" /> Reject
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Date Range Filter */}
       <Card className="border-slate-200/60 shadow-sm">
         <CardHeader>
