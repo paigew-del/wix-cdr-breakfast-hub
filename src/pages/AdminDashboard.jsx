@@ -274,7 +274,7 @@ export default function AdminDashboard() {
               ))}
             </div>
           </CardContent>
-        </Card>
+      </Card>
 
       {/* Menu Upload by Office */}
       <Card className="rounded-2xl border-gray-200 shadow-sm bg-white">
