@@ -58,7 +58,8 @@ const AuthenticatedApp = () => {
 
   // Show registration gate
   if (!userLoading && currentUser) {
-    if (!currentUser.approval_status || currentUser.approval_status === 'pending') {
+    const isAdmin = currentUser.role === 'admin';
+    if (!isAdmin && (!currentUser.approval_status || currentUser.approval_status === 'pending')) {
       if (!currentUser.office) {
         // Hasn't registered yet
         return <Register user={currentUser} onSubmitted={() => setRegistered(r => !r)} />;
