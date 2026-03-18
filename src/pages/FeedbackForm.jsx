@@ -221,6 +221,16 @@ export default function FeedbackForm() {
                       />
                     </div>
                     <div>
+                      <Label htmlFor="email">Your Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={formData.employeeEmail}
+                        onChange={(e) => setFormData({ ...formData, employeeEmail: e.target.value })}
+                        placeholder="you@wix.com"
+                      />
+                    </div>
+                    <div>
                       <Label htmlFor="date">Date of Breakfast *</Label>
                       <Input
                         id="date"
