@@ -24,6 +24,8 @@ export default function AdminDashboard() {
   const [activeManualOffice, setActiveManualOffice] = useState(null);
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviting, setInviting] = useState(false);
+  const [showOfficeManager, setShowOfficeManager] = useState(false);
+  const [newOfficeName, setNewOfficeName] = useState('');
   const queryClient = useQueryClient();
 
   useEffect(() => {
