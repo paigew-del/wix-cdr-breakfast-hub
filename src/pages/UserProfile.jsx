@@ -50,6 +50,7 @@ export default function UserProfile() {
         allergies: u.allergies || '',
         other_notes: u.other_notes || '',
         photo_url: u.photo_url || '',
+        photo_position: u.photo_position || { x: 0, y: 0 },
       });
     });
   }, []);
