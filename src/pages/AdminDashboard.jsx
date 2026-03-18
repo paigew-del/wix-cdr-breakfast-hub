@@ -16,8 +16,7 @@ import UploadMenu from '../components/menu/UploadMenu';
 import ManualMenuEntry from '../components/menu/ManualMenuEntry';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
-const OFFICES = ['New York', 'Cedar Rapids', 'Miami'];
-const OFFICE_COLORS = { 'New York': '#3b82f6', 'Cedar Rapids': '#8b5cf6', 'Miami': '#f59e0b' };
+const OFFICE_COLORS_DEFAULT = ['#3b82f6', '#8b5cf6', '#f59e0b', '#10b981', '#f43f5e', '#f97316', '#6366f1'];
 
 export default function AdminDashboard() {
   const [isAdmin, setIsAdmin] = useState(null);
