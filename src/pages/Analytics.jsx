@@ -41,6 +41,12 @@ export default function Analytics() {
     queryFn: () => base44.entities.MenuDay.list()
   });
 
+  const { data: users = [] } = useQuery({
+    queryKey: ['users'],
+    queryFn: () => base44.entities.User.list(),
+    enabled: isAdmin
+  });
+
   if (!isAdmin) {
     return (
       <div className="text-center py-16">
