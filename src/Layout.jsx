@@ -4,6 +4,11 @@ import { UserCircle, LayoutDashboard } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 export default function Layout({ children, currentPageName }) {
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    base44.auth.me().then(u => setIsAdmin(u?.role === 'admin'));
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <style>{`
