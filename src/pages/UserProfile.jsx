@@ -124,6 +124,9 @@ export default function UserProfile() {
             <p className="text-xl font-semibold text-gray-900">{user.full_name}</p>
             <p className="text-sm text-gray-500">{user.email}</p>
             {uploading && <p className="text-xs text-blue-600">Uploading photo...</p>}
+            {profile.photo_url && !uploading && (
+              <p className="text-xs text-gray-400">Drag the photo to reposition it</p>
+            )}
           </div>
         </CardContent>
       </Card>
