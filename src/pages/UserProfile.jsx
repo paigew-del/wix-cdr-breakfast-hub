@@ -223,6 +223,8 @@ export default function UserProfile() {
         </CardContent>
       </Card>
 
+      <FeedbackHistory userEmail={user.email} />
+
       <Button
         onClick={handleSave}
         disabled={saving}
