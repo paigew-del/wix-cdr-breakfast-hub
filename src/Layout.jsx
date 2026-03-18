@@ -33,10 +33,18 @@ export default function Layout({ children, currentPageName }) {
               </div>
             </Link>
             
-            <Link to="/UserProfile" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#1E56C3] transition-colors">
-              <UserCircle className="h-6 w-6" />
-              <span className="hidden sm:inline">My Profile</span>
-            </Link>
+            <div className="flex items-center gap-3">
+              {isAdmin && (
+                <Link to="/AdminDashboard" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#1E56C3] transition-colors">
+                  <LayoutDashboard className="h-5 w-5" />
+                  <span className="hidden sm:inline">Admin</span>
+                </Link>
+              )}
+              <Link to="/UserProfile" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#1E56C3] transition-colors">
+                <UserCircle className="h-6 w-6" />
+                <span className="hidden sm:inline">My Profile</span>
+              </Link>
+            </div>
           </div>
         </div>
       </header>
