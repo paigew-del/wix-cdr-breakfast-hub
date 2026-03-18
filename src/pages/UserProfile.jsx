@@ -194,6 +194,7 @@ export default function UserProfile() {
           </CardTitle>
         </CardHeader>
         <CardContent>
+          <p className="text-sm text-gray-500 mb-2">Please list specific food allergies that cause a reaction — not food preferences or dislikes.</p>
           <Textarea
             placeholder="List any food allergies (e.g. peanuts, tree nuts, shellfish, eggs...)"
             value={profile.allergies}
