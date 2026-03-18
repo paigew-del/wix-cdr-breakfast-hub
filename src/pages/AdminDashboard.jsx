@@ -242,6 +242,54 @@ export default function AdminDashboard() {
         </Card>
       </div>
 
+      {/* Office Manager (expanded) */}
+      {showOfficeManager && (
+        <Card className="rounded-2xl border-purple-200 bg-purple-50 shadow-sm">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg text-purple-800">
+              <MapPin className="h-5 w-5 text-purple-500" /> Manage Office Locations
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {officeRecords.map(o => (
+              <div key={o.id} className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-purple-100">
+                <div className="flex items-center gap-3">
+                  <span className="w-3 h-3 rounded-full" style={{ background: OFFICE_COLORS[o.name] || '#6b7280' }} />
+                  <span className="font-medium text-gray-900">{o.name}</span>
+                  <span className="text-xs text-gray-400">
+                    {approvedUsers.filter(u => u.office === o.name).length} users
+                  </span>
+                </div>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="text-red-500 hover:bg-red-50 hover:text-red-600 rounded-full h-8 w-8 p-0"
+                  onClick={() => handleDeleteOffice(o.name)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+            <div className="flex gap-2 pt-1">
+              <Input
+                placeholder="New office name..."
+                value={newOfficeName}
+                onChange={e => setNewOfficeName(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleAddOffice()}
+                className="h-9 rounded-full text-sm"
+              />
+              <Button
+                size="sm"
+                className="rounded-full bg-[#101585] hover:bg-[#0d1170] flex-shrink-0"
+                onClick={handleAddOffice}
+              >
+                <Plus className="h-4 w-4 mr-1" /> Add
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Navigation Widgets */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
