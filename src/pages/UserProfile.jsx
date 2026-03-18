@@ -60,7 +60,7 @@ export default function UserProfile() {
     if (!file) return;
     setUploading(true);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    setProfile((p) => ({ ...p, photo_url: file_url }));
+    setProfile((p) => ({ ...p, photo_url: file_url, photo_position: { x: 0, y: 0 } }));
     setUploading(false);
   };
 
