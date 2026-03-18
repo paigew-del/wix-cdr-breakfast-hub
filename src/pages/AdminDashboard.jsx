@@ -37,12 +37,6 @@ export default function AdminDashboard() {
     enabled: !!isAdmin,
   });
 
-  const { data: refreshmentReports = [], refetch: refetchReports } = useQuery({
-    queryKey: ['admin-refreshment-reports'],
-    queryFn: () => base44.entities.RefreshmentReport.filter({ status: 'out_of_stock' }, '-created_date'),
-    enabled: !!isAdmin,
-  });
-
   const { data: feedback = [] } = useQuery({
     queryKey: ['admin-feedback-recent'],
     queryFn: () => base44.entities.Feedback.list('-created_date', 5),
