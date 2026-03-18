@@ -56,7 +56,22 @@ export default function AdminDashboard() {
     await base44.integrations.Core.SendEmail({
       to: user.email,
       subject: 'Your Breakfast Hub Access Has Been Approved!',
-      body: `Hi ${user.full_name},\n\nYour registration for the US WIX Breakfast Hub has been approved. You can now log in and access the full app.\n\nWelcome!\nUS WIX Breakfast Hub`
+      body: `<div style="font-family:'Helvetica Neue',Arial,sans-serif;max-width:560px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
+  <div style="background:#101585;padding:24px 32px;text-align:center;">
+    <span style="color:#ffffff;font-size:22px;font-weight:800;letter-spacing:1px;">WIX</span>
+    <span style="color:rgba(255,255,255,0.5);margin:0 10px;">|</span>
+    <span style="color:rgba(255,255,255,0.85);font-size:14px;">US Breakfast Hub</span>
+  </div>
+  <div style="padding:32px;">
+    <h2 style="color:#101585;margin:0 0 12px;">You're approved! 🎉</h2>
+    <p style="color:#374151;font-size:15px;line-height:1.6;">Hi ${user.full_name},</p>
+    <p style="color:#374151;font-size:15px;line-height:1.6;">Your registration for the <strong>US WIX Breakfast Hub</strong> has been approved. You can now log in and access the full app.</p>
+    <p style="color:#374151;font-size:15px;line-height:1.6;">Welcome to the team! 🥐</p>
+  </div>
+  <div style="background:#f9fafb;padding:16px 32px;text-align:center;border-top:1px solid #e5e7eb;">
+    <p style="color:#9ca3af;font-size:12px;margin:0;">US WIX Breakfast Hub · Wix</p>
+  </div>
+</div>`
     });
     refetchUsers();
     toast.success(`${user.full_name} approved`);
