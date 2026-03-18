@@ -24,6 +24,16 @@ const LayoutWrapper = ({ children, currentPageName }) => Layout ?
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userLoading, setUserLoading] = useState(true);
+  const [registered, setRegistered] = useState(false);
+
+  useEffect(() => {
+    base44.auth.me().then(u => {
+      setCurrentUser(u);
+      setUserLoading(false);
+    }).catch(() => setUserLoading(false));
+  }, [registered]);
 
   // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {
