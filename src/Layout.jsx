@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { UserCircle } from 'lucide-react';
 
 export default function Layout({ children, currentPageName }) {
   return (
@@ -26,7 +27,10 @@ export default function Layout({ children, currentPageName }) {
               </div>
             </Link>
             
-            
+            <Link to="/UserProfile" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#1E56C3] transition-colors">
+              <UserCircle className="h-6 w-6" />
+              <span className="hidden sm:inline">My Profile</span>
+            </Link>
           </div>
         </div>
       </header>
