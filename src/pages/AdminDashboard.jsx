@@ -227,13 +227,17 @@ export default function AdminDashboard() {
             </div>
           </CardContent>
         </Card>
-        <Card className="rounded-2xl border-gray-200 shadow-sm bg-white">
+        <Card
+          className="rounded-2xl border-gray-200 shadow-sm bg-white hover:shadow-md hover:border-purple-300 transition-all cursor-pointer col-span-2 sm:col-span-1"
+          onClick={() => setShowOfficeManager(v => !v)}
+        >
           <CardContent className="pt-5 pb-5 flex items-center gap-3">
             <div className="bg-purple-100 rounded-xl p-2.5"><UtensilsCrossed className="h-5 w-5 text-purple-600" /></div>
-            <div>
+            <div className="flex-1">
               <p className="text-2xl font-bold text-gray-900">{OFFICES.length}</p>
               <p className="text-xs text-gray-500">Offices</p>
             </div>
+            <ChevronRight className={`h-4 w-4 text-gray-400 transition-transform ${showOfficeManager ? 'rotate-90' : ''}`} />
           </CardContent>
         </Card>
       </div>
