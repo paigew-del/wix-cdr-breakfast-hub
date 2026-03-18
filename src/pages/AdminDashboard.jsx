@@ -176,15 +176,17 @@ export default function AdminDashboard() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <Card className="rounded-2xl border-gray-200 shadow-sm bg-white">
-          <CardContent className="pt-5 pb-5 flex items-center gap-3">
-            <div className="bg-blue-100 rounded-xl p-2.5"><Users className="h-5 w-5 text-blue-600" /></div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{approvedUsers.length}</p>
-              <p className="text-xs text-gray-500">Active Users</p>
-            </div>
-          </CardContent>
-        </Card>
+        <Link to="/UserManagement">
+          <Card className="rounded-2xl border-gray-200 shadow-sm bg-white hover:shadow-md hover:border-blue-300 transition-all cursor-pointer">
+            <CardContent className="pt-5 pb-5 flex items-center gap-3">
+              <div className="bg-blue-100 rounded-xl p-2.5"><Users className="h-5 w-5 text-blue-600" /></div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">{approvedUsers.length}</p>
+                <p className="text-xs text-gray-500">Active Users</p>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
         <Card className="rounded-2xl border-orange-200 shadow-sm bg-orange-50">
           <CardContent className="pt-5 pb-5 flex items-center gap-3">
             <div className="bg-orange-100 rounded-xl p-2.5"><Clock className="h-5 w-5 text-orange-500" /></div>

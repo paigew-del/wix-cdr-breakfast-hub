@@ -106,6 +106,11 @@ const AuthenticatedApp = () => {
           <UserProfile />
         </LayoutWrapper>
       } />
+      <Route path="/UserManagement" element={
+        <LayoutWrapper currentPageName="UserManagement">
+          <UserManagement />
+        </LayoutWrapper>
+      } />
       <Route path="/AdminDashboard" element={
         <LayoutWrapper currentPageName="AdminDashboard">
           <AdminDashboard />
