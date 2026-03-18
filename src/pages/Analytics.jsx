@@ -42,11 +42,36 @@ export default function Analytics() {
     queryFn: () => base44.entities.MenuDay.list()
   });
 
+  const queryClient = useQueryClient();
+
   const { data: users = [] } = useQuery({
     queryKey: ['users'],
     queryFn: () => base44.entities.User.list(),
     enabled: isAdmin
   });
+
+  const pendingUsers = users.filter(u => u.approval_status === 'pending' || (!u.approval_status && u.office));
+
+  const handleApprove = async (user) => {
+    await base44.entities.User.update(user.id, { approval_status: 'approved' });
+    // Send approval email
+    await base44.integrations.Core.SendEmail({
+      to: user.email,
+      subject: 'Your Breakfast Hub Access Has Been Approved!',
+      body: `Hi ${user.full_name},\n\nYour registration for the US WIX Breakfast Hub has been approved. You can now log in and access the full app.\n\nWelcome!\nUS WIX Breakfast Hub`
+    });
+    queryClient.invalidateQueries({ queryKey: ['users'] });
+  };
+
+  const handleReject = async (user) => {
+    await base44.entities.User.update(user.id, { approval_status: 'rejected' });
+    await base44.integrations.Core.SendEmail({
+      to: user.email,
+      subject: 'US WIX Breakfast Hub – Registration Update',
+      body: `Hi ${user.full_name},\n\nUnfortunately your registration for the US WIX Breakfast Hub was not approved at this time. Please reach out to your administrator for more information.\n\nUS WIX Breakfast Hub`
+    });
+    queryClient.invalidateQueries({ queryKey: ['users'] });
+  };
 
   if (!isAdmin) {
     return (
