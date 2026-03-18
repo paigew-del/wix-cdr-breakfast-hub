@@ -68,7 +68,7 @@ const AuthenticatedApp = () => {
         return <PendingApproval user={currentUser} />;
       }
     }
-    if (currentUser.approval_status === 'rejected') {
+    if (!isAdmin && currentUser.approval_status === 'rejected') {
       return (
         <div className="min-h-screen flex items-center justify-center p-4">
           <div className="text-center max-w-sm">
