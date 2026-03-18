@@ -9,6 +9,7 @@ import UserProfile from './pages/UserProfile';
 import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import UserManagement from './pages/UserManagement';
+import FeedbackReport from './pages/FeedbackReport';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -109,6 +110,11 @@ const AuthenticatedApp = () => {
       <Route path="/UserManagement" element={
         <LayoutWrapper currentPageName="UserManagement">
           <UserManagement />
+        </LayoutWrapper>
+      } />
+      <Route path="/FeedbackReport" element={
+        <LayoutWrapper currentPageName="FeedbackReport">
+          <FeedbackReport />
         </LayoutWrapper>
       } />
       <Route path="/AdminDashboard" element={

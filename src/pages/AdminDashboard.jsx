@@ -295,7 +295,7 @@ export default function AdminDashboard() {
         {[
           { to: '/Analytics', icon: BarChart2, iconBg: 'bg-amber-100', iconColor: 'text-amber-600', title: 'Analytics', desc: 'Feedback trends & reports' },
           { to: '/MenuCalendar', icon: CalendarDays, iconBg: 'bg-green-100', iconColor: 'text-green-600', title: 'Menu Calendar', desc: 'View & edit menus' },
-            { to: '/FeedbackForm', icon: MessageSquare, iconBg: 'bg-pink-100', iconColor: 'text-pink-600', title: 'Feedback', desc: 'Employee submissions' },
+            { to: '/FeedbackReport', icon: MessageSquare, iconBg: 'bg-pink-100', iconColor: 'text-pink-600', title: 'Feedback', desc: 'Employee submissions by location' },
         ].map(({ to, icon: Icon, iconBg, iconColor, title, desc }) => (
           <Link to={to} key={to} className="group">
             <Card className="rounded-2xl border-gray-200 shadow-sm bg-white hover:shadow-md hover:border-blue-300 transition-all cursor-pointer h-full">
