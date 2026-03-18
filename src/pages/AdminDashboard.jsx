@@ -132,6 +132,24 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleAddOffice = async () => {
+    const name = newOfficeName.trim();
+    if (!name) return;
+    if (OFFICES.includes(name)) { toast.error('Office already exists'); return; }
+    await base44.entities.OfficeLocation.create({ name });
+    setNewOfficeName('');
+    refetchOffices();
+    toast.success(`${name} added`);
+  };
+
+  const handleDeleteOffice = async (office) => {
+    const record = officeRecords.find(o => o.name === office);
+    if (!record) return;
+    await base44.entities.OfficeLocation.delete(record.id);
+    refetchOffices();
+    toast.success(`${office} removed`);
+  };
+
   const handleExportUsers = () => {
     const csv = [
       ['Name', 'Email', 'Office', 'Shift', 'Role', 'Dietary Restrictions', 'Allergies'],
