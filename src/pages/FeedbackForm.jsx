@@ -46,6 +46,19 @@ const StarRating = ({ value, onChange, label }) => {
 
 export default function FeedbackForm() {
   const office = new URLSearchParams(window.location.search).get('office');
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    base44.auth.me().then(u => {
+      setUser(u);
+      setFormData(prev => ({
+        ...prev,
+        employeeName: u?.full_name || '',
+        shiftStartTime: u?.shift_start_time || '',
+      }));
+    });
+  }, []);
+
   const [formData, setFormData] = useState({
     employeeName: '',
     shiftStartTime: '',
