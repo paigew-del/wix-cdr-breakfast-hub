@@ -75,7 +75,7 @@ export default function UserProfile() {
 
   const handleSave = async () => {
     setSaving(true);
-    await base44.auth.updateMe(profile);
+    await base44.auth.updateMe({ ...profile, approval_status: 'approved' });
     setSaved(true);
     setSaving(false);
     setTimeout(() => setSaved(false), 3000);
