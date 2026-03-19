@@ -208,7 +208,14 @@ export default function Register({ user, onSubmitted }) {
           disabled={submitting}
           className="w-full rounded-full py-6 text-base bg-blue-600 hover:bg-blue-700"
         >
-          {submitting ? 'Submitting...' : 'Submit Registration for Approval'}
+          {submitting ? 'Saving...' : 'Save Profile & Get Started'}
+        </Button>
+        <Button
+          variant="ghost"
+          onClick={handleSkip}
+          className="w-full rounded-full text-gray-500"
+        >
+          Skip for now
         </Button>
       </div>
     </div>
