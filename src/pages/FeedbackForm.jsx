@@ -347,25 +347,7 @@ export default function FeedbackForm() {
                       rows={3}
                     />
                   </div>
-                  <div>
-                    <Label className="mb-3 block">Your Dietary Needs (Optional)</Label>
-                    <div className="flex flex-wrap gap-2">
-                      {['GF', 'GFA', 'VEG', 'VGN', 'DFA', 'Other'].map((need) => (
-                        <Button
-                          key={need}
-                          type="button"
-                          variant={formData.employeeDietaryNeeds.includes(need) ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => handleDietaryNeedsChange(need)}
-                          className={cn(
-                            formData.employeeDietaryNeeds.includes(need) && "bg-blue-600 hover:bg-blue-700"
-                          )}
-                        >
-                          {need}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
+
                 </CardContent>
               </Card>
 
