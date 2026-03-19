@@ -80,7 +80,7 @@ export default function Register({ user, onSubmitted }) {
       <div className="w-full max-w-2xl space-y-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-[#101585]">Welcome to US WIX Breakfast Hub</h1>
-          <p className="text-gray-500 mt-2">Complete your profile to request access. An admin will review and approve your account.</p>
+          <p className="text-gray-500 mt-2">Set up your profile to personalize your experience. You can also skip this and do it later in My Profile.</p>
         </div>
 
         {/* Photo & Name */}
