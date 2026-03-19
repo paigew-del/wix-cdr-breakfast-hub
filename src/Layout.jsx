@@ -12,7 +12,7 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b border-border shadow-none">
+      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-white/60 shadow-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             <Link to="/Home" className="flex items-center gap-3">
