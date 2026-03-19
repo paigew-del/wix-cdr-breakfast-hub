@@ -58,28 +58,9 @@ const AuthenticatedApp = () => {
     }
   }
 
-  // Show registration gate
-  if (!userLoading && currentUser) {
-    const isAdmin = currentUser.role === 'admin';
-    if (!isAdmin && (!currentUser.approval_status || currentUser.approval_status === 'pending')) {
-      if (!currentUser.office) {
-        // Hasn't registered yet
-        return <Register user={currentUser} onSubmitted={() => setRegistered(r => !r)} />;
-      }
-      if (currentUser.approval_status === 'pending') {
-        return <PendingApproval user={currentUser} />;
-      }
-    }
-    if (!isAdmin && currentUser.approval_status === 'rejected') {
-      return (
-        <div className="min-h-screen flex items-center justify-center p-4">
-          <div className="text-center max-w-sm">
-            <h2 className="text-xl font-bold text-red-600 mb-2">Access Denied</h2>
-            <p className="text-gray-500">Your registration was not approved. Please contact your admin.</p>
-          </div>
-        </div>
-      );
-    }
+  // Show first-time profile setup for users who haven't set their office yet
+  if (!userLoading && currentUser && currentUser.role !== 'admin' && !currentUser.office) {
+    return <Register user={currentUser} onSubmitted={() => setRegistered(r => !r)} />;
   }
 
   // Render the main app
