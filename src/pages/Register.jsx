@@ -61,17 +61,13 @@ export default function Register({ user, onSubmitted }) {
     }
     setError('');
     setSubmitting(true);
-
-    await base44.auth.updateMe({ ...profile, approval_status: 'pending' });
-
-    // Notify admins
-    await base44.functions.invoke('notifyAdminsOfRegistration', {
-      userName: user.full_name,
-      userEmail: user.email,
-      office: profile.office,
-    });
-
+    await base44.auth.updateMe({ ...profile, approval_status: 'approved' });
     setSubmitting(false);
+    onSubmitted();
+  };
+
+  const handleSkip = async () => {
+    await base44.auth.updateMe({ approval_status: 'approved', office: 'Unknown' });
     onSubmitted();
   };
 
