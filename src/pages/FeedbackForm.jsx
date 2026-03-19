@@ -254,7 +254,7 @@ export default function FeedbackForm() {
                 </CardContent>
               </Card>
 
-              {/* Overall Ratings */}
+              {/* Overall Experience */}
               <Card className="border-gray-200 shadow-sm rounded-2xl bg-white">
                 <CardHeader>
                   <CardTitle className="text-lg font-semibold text-gray-900">Overall Experience</CardTitle>
@@ -262,13 +262,18 @@ export default function FeedbackForm() {
                 <CardContent className="space-y-6">
                   <div>
                     <StarRating
-                      label="Variety of Food"
+                      label="How satisfied are you with our breakfasts? (1 = not very satisfied, 5 = very satisfied)"
                       value={formData.varietyRating}
                       onChange={(value) => setFormData({ ...formData, varietyRating: value })}
                     />
+                  </div>
+
+                  <div className="pt-4 border-t border-slate-100">
+                    <Label htmlFor="favorite-items" className="text-sm font-medium text-slate-700">What have been your favorite items offered?</Label>
                     <Textarea
-                      className="mt-3"
-                      placeholder="Comments about variety..."
+                      id="favorite-items"
+                      className="mt-2"
+                      placeholder="e.g. bagels, fruit cups, yogurt..."
                       value={formData.varietyComments}
                       onChange={(e) => setFormData({ ...formData, varietyComments: e.target.value })}
                       rows={2}
@@ -276,14 +281,11 @@ export default function FeedbackForm() {
                   </div>
 
                   <div className="pt-4 border-t border-slate-100">
-                    <StarRating
-                      label="Allergies Handled Appropriately"
-                      value={formData.allergiesHandledRating}
-                      onChange={(value) => setFormData({ ...formData, allergiesHandledRating: value })}
-                    />
+                    <Label htmlFor="least-favorite-items" className="text-sm font-medium text-slate-700">What have been your least favorite items offered?</Label>
                     <Textarea
-                      className="mt-3"
-                      placeholder="Comments about allergy handling..."
+                      id="least-favorite-items"
+                      className="mt-2"
+                      placeholder="e.g. ..."
                       value={formData.allergiesHandledComments}
                       onChange={(e) => setFormData({ ...formData, allergiesHandledComments: e.target.value })}
                       rows={2}
@@ -291,63 +293,28 @@ export default function FeedbackForm() {
                   </div>
 
                   <div className="pt-4 border-t border-slate-100">
-                    <Label className="text-sm font-medium text-slate-700 mb-3 block">
-                      Was it stocked appropriately when you came into work?
-                    </Label>
-                    <div className="flex gap-3">
-                      {['Yes', 'Somewhat', 'No'].map((option) => (
-                        <Button
-                          key={option}
-                          type="button"
-                          variant={formData.stockedAppropriately === option ? "default" : "outline"}
-                          onClick={() => setFormData({ ...formData, stockedAppropriately: option })}
-                          className={cn(
-                            "flex-1",
-                            formData.stockedAppropriately === option && "bg-blue-600 hover:bg-blue-700"
-                          )}
-                        >
-                          {option}
-                        </Button>
-                      ))}
-                    </div>
+                    <Label htmlFor="menu-suggestions" className="text-sm font-medium text-slate-700">What would you like to see added to our breakfast menu?</Label>
                     <Textarea
-                      className="mt-3"
-                      placeholder="Comments about stocking..."
-                      value={formData.stockingComments}
-                      onChange={(e) => setFormData({ ...formData, stockingComments: e.target.value })}
+                      id="menu-suggestions"
+                      className="mt-2"
+                      placeholder="e.g. hot items, more variety, specific foods..."
+                      value={formData.menuSuggestions}
+                      onChange={(e) => setFormData({ ...formData, menuSuggestions: e.target.value })}
                       rows={2}
                     />
                   </div>
-                </CardContent>
-              </Card>
 
-              {/* Suggestions */}
-              <Card className="border-slate-200/60 shadow-sm">
-                <CardHeader>
-                  <CardTitle className="text-lg">Your Suggestions</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="menu-suggestions">Menu Suggestions</Label>
-                    <Textarea
-                      id="menu-suggestions"
-                      placeholder="What would you like to see on the menu?"
-                      value={formData.menuSuggestions}
-                      onChange={(e) => setFormData({ ...formData, menuSuggestions: e.target.value })}
-                      rows={3}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="other-feedback">Any Other Feedback</Label>
+                  <div className="pt-4 border-t border-slate-100">
+                    <Label htmlFor="other-feedback" className="text-sm font-medium text-slate-700">Any additional comments regarding our breakfast offerings?</Label>
                     <Textarea
                       id="other-feedback"
+                      className="mt-2"
                       placeholder="Share any other thoughts..."
                       value={formData.otherFeedback}
                       onChange={(e) => setFormData({ ...formData, otherFeedback: e.target.value })}
                       rows={3}
                     />
                   </div>
-
                 </CardContent>
               </Card>
 
