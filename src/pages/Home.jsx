@@ -74,7 +74,7 @@ export default function Home() {
             <Link
               key={to}
               to={`${to}?office=${encodeURIComponent(selectedOffice)}`}
-              className="group flex flex-col gap-5 p-7 bg-white rounded-2xl border border-border hover:border-primary hover:shadow-lg transition-all duration-200"
+              className="group flex flex-col gap-5 p-7 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/80 shadow-md hover:shadow-xl hover:border-primary/30 transition-all duration-200"
             >
               <div className={`${bg} rounded-xl p-3.5 self-start group-hover:scale-105 transition-transform`}>
                 <Icon className={`h-6 w-6 ${accent === 'bg-primary' ? 'text-primary' : 'text-accent'}`} />
