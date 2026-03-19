@@ -257,7 +257,7 @@ export default function FeedbackForm() {
               {/* Overall Experience */}
               <Card className="border-gray-200 shadow-sm rounded-2xl bg-white">
                 <CardHeader>
-                  <CardTitle className="text-lg font-semibold text-gray-900">Overall Experience</CardTitle>
+                  <CardTitle className="text-lg font-semibold text-gray-900">Breakfast Feedback</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div>
