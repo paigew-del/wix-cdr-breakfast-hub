@@ -67,7 +67,7 @@ export default function Register({ user, onSubmitted }) {
   };
 
   const handleSkip = async () => {
-    await base44.auth.updateMe({ approval_status: 'approved', office: 'Unknown' });
+    await base44.auth.updateMe({ approval_status: 'approved' });
     onSubmitted();
   };
 
