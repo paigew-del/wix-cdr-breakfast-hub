@@ -58,8 +58,8 @@ const AuthenticatedApp = () => {
     }
   }
 
-  // Show first-time profile setup for users who haven't set their office yet
-  if (!userLoading && currentUser && currentUser.role !== 'admin' && !currentUser.office) {
+  // Show first-time profile setup for users who haven't been approved yet
+  if (!userLoading && currentUser && currentUser.role !== 'admin' && currentUser.approval_status !== 'approved') {
     return <Register user={currentUser} onSubmitted={() => setRegistered(r => !r)} />;
   }
 
