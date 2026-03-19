@@ -175,15 +175,22 @@ function OfficeGroup({ office, feedbackList }) {
 
 export default function FeedbackReport() {
   const [dateFilter, setDateFilter] = useState('all');
+  const [isAdmin, setIsAdmin] = useState(null);
+
+  React.useEffect(() => {
+    base44.auth.me().then(u => setIsAdmin(u?.role === 'admin'));
+  }, []);
 
   const { data: allFeedback = [], isLoading } = useQuery({
     queryKey: ['feedback-report'],
     queryFn: () => base44.entities.Feedback.list('-dateOfBreakfast', 200),
+    enabled: isAdmin === true,
   });
 
   const { data: users = [] } = useQuery({
     queryKey: ['feedback-report-users'],
     queryFn: () => base44.entities.User.list(),
+    enabled: isAdmin === true,
   });
 
   // Enrich feedback with office info from users
