@@ -10,38 +10,29 @@ export default function Layout({ children, currentPageName }) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <style>{`
-        :root {
-          --primary: 0 102 255;
-          --primary-foreground: 255 255 255;
-          --accent: 0 102 255;
-        }
-      `}</style>
-      
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b border-blue-100 shadow-sm">
+      <header className="sticky top-0 z-50 bg-white border-b border-border shadow-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-14">
             <Link to="/Home" className="flex items-center gap-3">
-              <div className="text-2xl font-bold tracking-tight text-[#101585]">
-                WIX
-              </div>
-              <div className="h-6 w-px bg-gray-300"></div>
-              <div>
-                <h1 className="text-base font-medium text-gray-900">US WIX Breakfast Hub</h1>
-              </div>
+              {/* Wix-style logo */}
+              <svg width="46" height="18" viewBox="0 0 46 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="16" fontFamily="'Wix Madefor Text', sans-serif" fontWeight="800" fontSize="18" fill="#116DFF" letterSpacing="-1">WiX</text>
+              </svg>
+              <div className="h-5 w-px bg-gray-200"></div>
+              <span className="text-sm font-semibold text-foreground tracking-tight">US Breakfast Hub</span>
             </Link>
             
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1">
               {isAdmin && (
-                <Link to="/AdminDashboard" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#1E56C3] transition-colors">
-                  <LayoutDashboard className="h-5 w-5" />
+                <Link to="/AdminDashboard" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-lg hover:bg-muted">
+                  <LayoutDashboard className="h-4 w-4" />
                   <span className="hidden sm:inline">Admin</span>
                 </Link>
               )}
-              <Link to="/UserProfile" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#1E56C3] transition-colors">
-                <UserCircle className="h-6 w-6" />
+              <Link to="/UserProfile" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-lg hover:bg-muted">
+                <UserCircle className="h-4 w-4" />
                 <span className="hidden sm:inline">My Profile</span>
               </Link>
             </div>
