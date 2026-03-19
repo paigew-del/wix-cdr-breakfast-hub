@@ -241,7 +241,6 @@ export default function MenuCalendar() {
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-3 mt-4">
-            {selectedDay && <QuickFeedback menuDay={selectedDay} />}
             {selectedDay?.menuItems?.map((item, idx) => {
               return (
                 <div key={idx} className="p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-300 transition-colors">
