@@ -27,7 +27,7 @@ export default function Home() {
   const [selectedOffice, setSelectedOffice] = useState(null);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[72vh] px-4">
+    <div className="flex flex-col items-center justify-center min-h-[72vh] px-4 py-12">
       {/* Hero text */}
       <div className="text-center mb-12">
         <div className="inline-flex items-center gap-2 bg-secondary text-primary text-xs font-semibold px-3 py-1.5 rounded-full mb-6 tracking-wide uppercase">
