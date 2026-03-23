@@ -130,6 +130,8 @@ export default function FeedbackForm() {
           dateOfBreakfast: format(new Date(), 'yyyy-MM-dd'),
           varietyRating: 0,
           varietyComments: '',
+          varietyOverTimeRating: 0,
+          qualityTasteRating: 0,
           allergiesHandledRating: 0,
           allergiesHandledComments: '',
           stockedAppropriately: '',
