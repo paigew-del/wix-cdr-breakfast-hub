@@ -273,6 +273,22 @@ export default function FeedbackForm() {
                   </div>
 
                   <div className="pt-4 border-t border-slate-100">
+                    <StarRating
+                      label="How satisfied are you with the variety of breakfast options over time?"
+                      value={formData.varietyOverTimeRating}
+                      onChange={(value) => setFormData({ ...formData, varietyOverTimeRating: value })}
+                    />
+                  </div>
+
+                  <div className="pt-4 border-t border-slate-100">
+                    <StarRating
+                      label="How satisfied are you with the quality and taste of the breakfast items?"
+                      value={formData.qualityTasteRating}
+                      onChange={(value) => setFormData({ ...formData, qualityTasteRating: value })}
+                    />
+                  </div>
+
+                  <div className="pt-4 border-t border-slate-100">
                     <Label htmlFor="favorite-items" className="text-sm font-medium text-slate-700">What have been your favorite items offered?</Label>
                     <Textarea
                       id="favorite-items"
