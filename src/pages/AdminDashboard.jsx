@@ -393,62 +393,80 @@ export default function AdminDashboard() {
       {/* Menu Upload by Office */}
       <Card className="rounded-2xl border-gray-200 shadow-sm bg-white">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
-            <Upload className="h-5 w-5 text-blue-600" /> Upload Menu by Office
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
+              <Upload className="h-5 w-5 text-blue-600" /> Upload Menu by Office
+            </CardTitle>
+            {(activeUploadOffice || activeManualOffice) && (
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-gray-500 text-xs rounded-full"
+                onClick={() => { setActiveUploadOffice(null); setActiveManualOffice(null); }}
+              >
+                ← Back to offices
+              </Button>
+            )}
+          </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {OFFICES.map(office => (
-            <div key={office} className="border border-gray-200 rounded-xl overflow-hidden">
-              <div className="flex items-center justify-between p-4 bg-gray-50">
-                <div className="flex items-center gap-3">
-                  <MapPin className="h-5 w-5 text-blue-600" />
-                  <span className="font-semibold text-gray-900">{office}</span>
-                  <span className="text-xs text-gray-400">
-                    {approvedUsers.filter(u => u.office === office).length} users
-                  </span>
+        <CardContent>
+          {!activeUploadOffice && !activeManualOffice ? (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {OFFICES.map(office => (
+                <button
+                  key={office}
+                  onClick={() => setActiveUploadOffice(office)}
+                  className="group flex items-center gap-3 p-4 bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-300 rounded-xl transition-all text-left"
+                >
+                  <div className="bg-blue-100 group-hover:bg-blue-200 rounded-lg p-2 transition-colors">
+                    <MapPin className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 text-sm">{office}</p>
+                    <p className="text-xs text-gray-400">{approvedUsers.filter(u => u.office === office).length} users</p>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-blue-500 flex-shrink-0" />
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div>
+              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-100">
+                <div className="bg-blue-100 rounded-lg p-2">
+                  <MapPin className="h-4 w-4 text-blue-600" />
                 </div>
-                <div className="flex gap-2">
+                <span className="font-semibold text-gray-900">{activeUploadOffice || activeManualOffice}</span>
+                <div className="flex gap-2 ml-auto">
                   <Button
                     size="sm"
-                    variant={activeUploadOffice === office ? 'outline' : 'default'}
+                    variant={activeManualOffice ? 'outline' : 'default'}
                     className="rounded-full"
-                    onClick={() => {
-                      setActiveUploadOffice(activeUploadOffice === office ? null : office);
-                      setActiveManualOffice(null);
-                    }}
+                    onClick={() => { setActiveUploadOffice(activeUploadOffice || activeManualOffice); setActiveManualOffice(null); }}
                   >
-                    <Upload className="h-3.5 w-3.5 mr-1" /> CSV
+                    <Upload className="h-3.5 w-3.5 mr-1" /> CSV Upload
                   </Button>
                   <Button
                     size="sm"
-                    variant={activeManualOffice === office ? 'outline' : 'default'}
-                    className="rounded-full bg-[#101585] hover:bg-[#0d1170]"
-                    onClick={() => {
-                      setActiveManualOffice(activeManualOffice === office ? null : office);
-                      setActiveUploadOffice(null);
-                    }}
+                    variant={activeUploadOffice ? 'default' : 'outline'}
+                    className={`rounded-full ${!activeManualOffice ? 'bg-[#101585] hover:bg-[#0d1170]' : ''}`}
+                    onClick={() => { setActiveManualOffice(activeUploadOffice || activeManualOffice); setActiveUploadOffice(null); }}
                   >
-                    + Manual
+                    + Manual Entry
                   </Button>
                 </div>
               </div>
-              {activeUploadOffice === office && (
-                <div className="p-4 border-t border-gray-200">
-                  <UploadMenu office={office} onUploadComplete={() => setActiveUploadOffice(null)} />
-                </div>
+              {activeUploadOffice && (
+                <UploadMenu office={activeUploadOffice} onUploadComplete={() => { setActiveUploadOffice(null); setActiveManualOffice(null); }} />
               )}
-              {activeManualOffice === office && (
-                <div className="p-4 border-t border-gray-200">
-                  <ManualMenuEntry
-                    office={office}
-                    onSaveComplete={() => setActiveManualOffice(null)}
-                    onCancel={() => setActiveManualOffice(null)}
-                  />
-                </div>
+              {activeManualOffice && (
+                <ManualMenuEntry
+                  office={activeManualOffice}
+                  onSaveComplete={() => { setActiveUploadOffice(null); setActiveManualOffice(null); }}
+                  onCancel={() => { setActiveUploadOffice(null); setActiveManualOffice(null); }}
+                />
               )}
             </div>
-          ))}
+          )}
         </CardContent>
       </Card>
 
