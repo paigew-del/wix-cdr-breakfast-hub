@@ -67,7 +67,7 @@ export default function Home() {
       </div>
 
       {!selectedOffice ? (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-2xl">
+        <div className="flex flex-wrap justify-center gap-4 w-full max-w-2xl">
           {OFFICES.map((office) => (
             <button
               key={office}
