@@ -72,7 +72,7 @@ export default function Home() {
             <button
               key={office}
               onClick={() => setSelectedOffice(office)}
-              className="group flex flex-col items-center gap-4 p-8 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/80 shadow-md hover:shadow-xl hover:border-primary/30 transition-all duration-200 text-center"
+              className="group flex flex-col items-center gap-4 p-8 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/80 shadow-md hover:shadow-xl hover:border-primary/30 transition-all duration-200 text-center w-48"
             >
               <div className="bg-secondary text-primary rounded-xl p-3.5 group-hover:bg-primary group-hover:text-white transition-all duration-200">
                 <MapPin className="h-7 w-7" />
