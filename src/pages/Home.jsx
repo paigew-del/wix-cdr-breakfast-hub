@@ -27,40 +27,35 @@ export default function Home() {
   const [selectedOffice, setSelectedOffice] = useState(null);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[72vh]">
-      {/* Hero image header - full bleed */}
-      <div className="w-full overflow-hidden relative mb-10" style={{marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', width: '100vw'}}>
+    <div className="flex flex-col items-center justify-center min-h-[72vh] px-4 py-12">
+      {/* Hero image header */}
+      <div className="w-full max-w-3xl rounded-3xl overflow-hidden shadow-xl mb-10 relative">
         <img
           src="https://media.base44.com/images/public/6973e5263b7dbcde19e59f1c/a499f31f0_image.png"
           alt="Breakfast spread"
-          className="w-full object-cover"
-          style={{height: '380px'}}
+          className="w-full h-56 sm:h-72 object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent flex flex-col justify-end px-8 pb-10 sm:px-16">
-          <div className="max-w-4xl mx-auto w-full">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-3 tracking-wide uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-white inline-block"></span>
-              Wix US Offices
-            </div>
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight tracking-tight">
-              US Breakfast Hub
-            </h1>
-            <p className="text-white/80 text-base mt-2">
-              {!selectedOffice ? 'Select your office to get started.' : `${selectedOffice} — What would you like to do?`}
-            </p>
-            {selectedOffice && (
-              <button
-                onClick={() => setSelectedOffice(null)}
-                className="mt-2 inline-flex items-center gap-1 text-sm text-white/90 hover:text-white font-medium"
-              >
-                <ChevronLeft className="h-4 w-4" /> Change office
-              </button>
-            )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col justify-end p-8">
+          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-3 tracking-wide uppercase self-start">
+            <span className="w-1.5 h-1.5 rounded-full bg-white inline-block"></span>
+            Wix US Offices
           </div>
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight tracking-tight">
+            US Breakfast Hub
+          </h1>
+          <p className="text-white/80 text-base mt-2">
+            {!selectedOffice ? 'Select your office to get started.' : `${selectedOffice} — What would you like to do?`}
+          </p>
+          {selectedOffice && (
+            <button
+              onClick={() => setSelectedOffice(null)}
+              className="mt-2 inline-flex items-center gap-1 text-sm text-white/90 hover:text-white font-medium"
+            >
+              <ChevronLeft className="h-4 w-4" /> Change office
+            </button>
+          )}
         </div>
       </div>
-
-      <div className="px-4 w-full flex flex-col items-center">
 
       {!selectedOffice ? (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-2xl">
@@ -102,7 +97,6 @@ export default function Home() {
           ))}
         </div>
       )}
-      </div>
     </div>
   );
 }
