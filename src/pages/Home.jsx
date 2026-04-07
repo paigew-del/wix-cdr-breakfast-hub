@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, MessageSquare, MapPin, ChevronLeft, ArrowRight } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
@@ -30,6 +30,12 @@ export default function Home() {
     queryKey: ['office-locations'],
     queryFn: () => base44.entities.OfficeLocation.list(),
   });
+
+  useEffect(() => {
+    base44.auth.me().then((u) => {
+      if (u?.office) setSelectedOffice(u.office);
+    });
+  }, []);
 
   const OFFICES = officeRecords
     .filter(o => o.visible !== false)
