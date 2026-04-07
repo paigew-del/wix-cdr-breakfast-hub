@@ -17,9 +17,7 @@ export default function Layout({ children, currentPageName }) {
           <div className="flex items-center justify-between h-14">
             <Link to="/Home" className="flex items-center gap-3">
               {/* Wix-style logo */}
-              <svg width="46" height="18" viewBox="0 0 46 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <text x="0" y="16" fontFamily="'Wix Madefor Text', sans-serif" fontWeight="800" fontSize="18" fill="#116DFF" letterSpacing="-1">WiX</text>
-              </svg>
+              <img src="https://media.base44.com/images/public/6973e5263b7dbcde19e59f1c/2affc4ed5_image.png" alt="Wix" className="h-5 w-auto" />
               <div className="h-5 w-px bg-gray-200"></div>
               <span className="text-sm font-semibold text-foreground tracking-tight">US Breakfast Hub</span>
             </Link>
