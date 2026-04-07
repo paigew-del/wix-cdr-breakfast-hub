@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import {
   BarChart2, Users, CalendarDays, CheckCircle2, XCircle, Clock,
   AlertCircle, MapPin, ChevronRight, UtensilsCrossed, Upload,
-  UserPlus, MessageSquare, Download, Plus, Trash2
+  UserPlus, MessageSquare, Download, Plus, Trash2, Eye, EyeOff
 } from 'lucide-react';
 import UploadMenu from '../components/menu/UploadMenu';
 import ManualMenuEntry from '../components/menu/ManualMenuEntry';
@@ -150,6 +150,14 @@ export default function AdminDashboard() {
     toast.success(`${office} removed`);
   };
 
+  const handleToggleVisibility = async (office) => {
+    const record = officeRecords.find(o => o.name === office.name);
+    if (!record) return;
+    await base44.entities.OfficeLocation.update(record.id, { visible: !record.visible });
+    refetchOffices();
+    toast.success(`${record.name} is now ${!record.visible ? 'visible' : 'hidden'} to employees`);
+  };
+
   const handleExportUsers = () => {
     const csv = [
       ['Name', 'Email', 'Office', 'Shift', 'Role', 'Dietary Restrictions', 'Allergies'],
@@ -259,15 +267,29 @@ export default function AdminDashboard() {
                   <span className="text-xs text-gray-400">
                     {approvedUsers.filter(u => u.office === o.name).length} users
                   </span>
+                  {o.visible === false && (
+                    <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Hidden from employees</span>
+                  )}
                 </div>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="text-red-500 hover:bg-red-50 hover:text-red-600 rounded-full h-8 w-8 p-0"
-                  onClick={() => handleDeleteOffice(o.name)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-1">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    title={o.visible === false ? 'Show to employees' : 'Hide from employees'}
+                    className={`rounded-full h-8 w-8 p-0 ${o.visible === false ? 'text-gray-400 hover:text-green-600 hover:bg-green-50' : 'text-green-600 hover:text-gray-400 hover:bg-gray-50'}`}
+                    onClick={() => handleToggleVisibility(o)}
+                  >
+                    {o.visible === false ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="text-red-500 hover:bg-red-50 hover:text-red-600 rounded-full h-8 w-8 p-0"
+                    onClick={() => handleDeleteOffice(o.name)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             ))}
             <div className="flex gap-2 pt-1">

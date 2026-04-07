@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, MessageSquare, MapPin, ChevronLeft, ArrowRight } from 'lucide-react';
-
-const OFFICES = ['New York', 'Cedar Rapids', 'Miami'];
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 
 const ACTION_CARDS = [
   {
@@ -25,6 +25,15 @@ const ACTION_CARDS = [
 
 export default function Home() {
   const [selectedOffice, setSelectedOffice] = useState(null);
+
+  const { data: officeRecords = [] } = useQuery({
+    queryKey: ['office-locations'],
+    queryFn: () => base44.entities.OfficeLocation.list(),
+  });
+
+  const OFFICES = officeRecords
+    .filter(o => o.visible !== false)
+    .map(o => o.name);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[72vh] px-4 py-12">

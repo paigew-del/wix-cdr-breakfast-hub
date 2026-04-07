@@ -1,0 +1,18 @@
+{
+  "name": "OfficeLocation",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the office location"
+    },
+    "visible": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this office is visible to employees on the home page"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
