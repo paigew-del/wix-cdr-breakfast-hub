@@ -39,7 +39,7 @@ export default function Home() {
       setIsAdmin(admin);
       if (u?.office) {
         setUserOffice(u.office);
-        setSelectedOffice(u.office);
+        if (!admin) setSelectedOffice(u.office);
       }
     });
   }, []);
