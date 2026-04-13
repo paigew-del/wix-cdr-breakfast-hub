@@ -80,7 +80,7 @@ export default function Register({ user, onSubmitted }) {
       <div className="w-full max-w-2xl space-y-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-[#101585]">Welcome to US WIX Breakfast Hub</h1>
-          <p className="text-gray-500 mt-2">Set up your profile to personalize your experience. You can also skip this and do it later in My Profile.</p>
+          <p className="text-gray-500 mt-2">Please complete your profile to get started. Office location is required.</p>
         </div>
 
         {/* Photo & Name */}
@@ -210,13 +210,7 @@ export default function Register({ user, onSubmitted }) {
         >
           {submitting ? 'Saving...' : 'Save Profile & Get Started'}
         </Button>
-        <Button
-          variant="ghost"
-          onClick={handleSkip}
-          className="w-full rounded-full text-gray-500"
-        >
-          Skip for now
-        </Button>
+
       </div>
     </div>
   );

@@ -25,6 +25,8 @@ const ACTION_CARDS = [
 
 export default function Home() {
   const [selectedOffice, setSelectedOffice] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [userOffice, setUserOffice] = useState(null);
 
   const { data: officeRecords = [] } = useQuery({
     queryKey: ['office-locations'],
@@ -33,7 +35,12 @@ export default function Home() {
 
   useEffect(() => {
     base44.auth.me().then((u) => {
-      if (u?.office) setSelectedOffice(u.office);
+      const admin = u?.role === 'admin';
+      setIsAdmin(admin);
+      if (u?.office) {
+        setUserOffice(u.office);
+        setSelectedOffice(u.office);
+      }
     });
   }, []);
 
@@ -61,7 +68,7 @@ export default function Home() {
           <p className="text-white/80 text-base mt-2">
             {!selectedOffice ? 'Select your office to get started.' : `${selectedOffice} — What would you like to do?`}
           </p>
-          {selectedOffice && (
+          {selectedOffice && isAdmin && (
             <button
               onClick={() => setSelectedOffice(null)}
               className="mt-2 inline-flex items-center gap-1 text-sm text-white/90 hover:text-white font-medium"
@@ -72,7 +79,7 @@ export default function Home() {
         </div>
       </div>
 
-      {!selectedOffice ? (
+      {!selectedOffice && isAdmin ? (
         <div className="flex flex-wrap justify-center gap-4 w-full max-w-2xl">
           {OFFICES.map((office) => (
             <button

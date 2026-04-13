@@ -45,12 +45,16 @@ const StarRating = ({ value, onChange, label }) => {
 };
 
 export default function FeedbackForm() {
-  const office = new URLSearchParams(window.location.search).get('office');
+  const urlOffice = new URLSearchParams(window.location.search).get('office');
+  const [office, setOffice] = useState(urlOffice);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     base44.auth.me().then(u => {
       setUser(u);
+      if (u?.role !== 'admin' && u?.office) {
+        setOffice(u.office);
+      }
       setFormData(prev => ({
         ...prev,
         employeeName: u?.full_name || '',

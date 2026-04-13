@@ -14,7 +14,7 @@ import { addDays, format, parseISO, startOfMonth, endOfMonth, startOfWeek, endOf
 
 export default function MenuCalendar() {
   const urlParams = new URLSearchParams(window.location.search);
-  const office = urlParams.get('office') || 'Cedar Rapids';
+  const [office, setOffice] = useState(urlParams.get('office') || 'Cedar Rapids');
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
@@ -26,7 +26,11 @@ export default function MenuCalendar() {
   useEffect(() => {
     const checkAdmin = async () => {
       const user = await base44.auth.me();
-      setIsAdmin(user.role === 'admin');
+      const admin = user.role === 'admin';
+      setIsAdmin(admin);
+      if (!admin && user.office) {
+        setOffice(user.office);
+      }
     };
     checkAdmin();
   }, []);
