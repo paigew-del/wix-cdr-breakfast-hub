@@ -1,0 +1,102 @@
+{
+  "name": "Feedback",
+  "type": "object",
+  "properties": {
+    "employeeName": {
+      "type": "string",
+      "description": "Name of employee submitting feedback"
+    },
+    "shiftStartTime": {
+      "type": "string",
+      "description": "Shift start time"
+    },
+    "dateOfBreakfast": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of breakfast being reviewed"
+    },
+    "varietyRating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Overall satisfaction rating (1-5)"
+    },
+    "varietyComments": {
+      "type": "string",
+      "description": "Favorite items"
+    },
+    "varietyOverTimeRating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Satisfaction with variety of options over time (1-5)"
+    },
+    "qualityTasteRating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Satisfaction with quality and taste (1-5)"
+    },
+    "allergiesHandledRating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Rating for allergy handling (1-5)"
+    },
+    "allergiesHandledComments": {
+      "type": "string",
+      "description": "Least favorite items"
+    },
+    "stockedAppropriately": {
+      "type": "string",
+      "enum": [
+        "Yes",
+        "Somewhat",
+        "No"
+      ],
+      "description": "Was it stocked appropriately"
+    },
+    "stockingComments": {
+      "type": "string",
+      "description": "Comments about stocking"
+    },
+    "menuItemRatings": {
+      "type": "array",
+      "description": "Individual ratings for menu items",
+      "items": {
+        "type": "object",
+        "properties": {
+          "itemName": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "comment": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "menuSuggestions": {
+      "type": "string",
+      "description": "Suggestions for the menu"
+    },
+    "otherFeedback": {
+      "type": "string",
+      "description": "Any other feedback"
+    },
+    "employeeDietaryNeeds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Dietary needs of the employee"
+    }
+  },
+  "required": [
+    "dateOfBreakfast"
+  ]
+}

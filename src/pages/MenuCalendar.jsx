@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from "@/components/ui/button";
-import { Plus, Calendar as CalendarIcon, X } from 'lucide-react';
+import { Plus, Calendar as CalendarIcon, X, Pencil } from 'lucide-react';
 import MenuCard from '../components/menu/MenuCard';
 import MenuFilters from '../components/menu/MenuFilters';
 import UploadMenu from '../components/menu/UploadMenu';
@@ -20,6 +20,7 @@ export default function MenuCalendar() {
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [showUpload, setShowUpload] = useState(false);
   const [showManualEntry, setShowManualEntry] = useState(false);
+  const [editingMenuDay, setEditingMenuDay] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
 
@@ -82,6 +83,15 @@ export default function MenuCalendar() {
   const handleManualSaveComplete = () => {
     refetch();
     setShowManualEntry(false);
+    setEditingMenuDay(null);
+    setSelectedDay(null);
+  };
+
+  const handleEditDay = (menuDayData) => {
+    setEditingMenuDay(menuDayData);
+    setShowManualEntry(true);
+    setShowUpload(false);
+    setSelectedDay(null);
   };
 
   if (isLoading) {
@@ -170,8 +180,9 @@ export default function MenuCalendar() {
       {isAdmin && showManualEntry && (
         <ManualMenuEntry 
           onSaveComplete={handleManualSaveComplete}
-          onCancel={() => setShowManualEntry(false)}
+          onCancel={() => { setShowManualEntry(false); setEditingMenuDay(null); }}
           office={office}
+          existingMenuDay={editingMenuDay}
         />
       )}
 
@@ -203,12 +214,18 @@ export default function MenuCalendar() {
             return (
               <div
                 key={idx}
-                className={`min-h-[120px] p-3 rounded-xl transition-all ${
+                className={`group min-h-[120px] p-3 rounded-xl transition-all ${
                   !isCurrentMonth ? 'bg-gray-50' : 'bg-white'
                 } ${isTodayDate ? 'ring-2 ring-blue-600' : ''} ${
-                  menuDay ? 'cursor-pointer hover:bg-blue-50' : ''
+                  menuDay || isAdmin ? 'cursor-pointer hover:bg-blue-50' : ''
                 }`}
-                onClick={() => menuDay && setSelectedDay(menuDay)}
+                onClick={() => {
+                  if (menuDay) {
+                    setSelectedDay(menuDay);
+                  } else if (isAdmin && isCurrentMonth) {
+                    handleEditDay({ date: dateStr, office, menuItems: [], specialNotes: '' });
+                  }
+                }}
               >
                 <div className={`text-sm font-semibold mb-2 ${
                   !isCurrentMonth ? 'text-gray-400' : isTodayDate ? 'text-blue-600' : 'text-gray-900'
@@ -230,6 +247,9 @@ export default function MenuCalendar() {
                     )}
                   </div>
                 )}
+                {!menuDay && isAdmin && isCurrentMonth && (
+                  <div className="text-xs text-gray-300 group-hover:text-blue-400 mt-1">+ Add menu</div>
+                )}
               </div>
             );
           })}
@@ -240,8 +260,13 @@ export default function MenuCalendar() {
       <Dialog open={!!selectedDay} onOpenChange={() => setSelectedDay(null)}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-gray-900">
-              {selectedDay && format(parseISO(selectedDay.date), 'EEEE, MMMM d, yyyy')}
+            <DialogTitle className="flex items-center justify-between text-2xl font-bold text-gray-900">
+              <span>{selectedDay && format(parseISO(selectedDay.date), 'EEEE, MMMM d, yyyy')}</span>
+              {isAdmin && (
+                <Button size="sm" variant="outline" className="rounded-full" onClick={() => handleEditDay(selectedDay)}>
+                  <Pencil className="h-4 w-4 mr-1" /> Edit
+                </Button>
+              )}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-3 mt-4">

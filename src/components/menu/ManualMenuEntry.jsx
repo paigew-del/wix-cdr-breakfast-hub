@@ -9,45 +9,33 @@ import { Plus, Trash2, Save, X } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { format } from 'date-fns';
 
-export default function ManualMenuEntry({ onSaveComplete, onCancel, office }) {
-  const [menuDay, setMenuDay] = useState({
-    date: format(new Date(), 'yyyy-MM-dd'),
-    office: office,
-    menuItems: [
-      {
-        itemName: '',
-        description: '',
-        isGF: false,
-        isGFA: false,
-        isVEG: false,
-        isVGN: false,
-        isDF: false,
-        isDFA: false,
-        isVGNA: false
-      }
-    ],
-    specialNotes: ''
+const emptyItem = () => ({
+  itemName: '', description: '',
+  isGF: false, isGFA: false, isVEG: false, isVGN: false,
+  isDF: false, isDFA: false, isVGNA: false
+});
+
+export default function ManualMenuEntry({ onSaveComplete, onCancel, office, existingMenuDay }) {
+  const [menuDay, setMenuDay] = useState(() => {
+    if (existingMenuDay) {
+      return {
+        date: existingMenuDay.date,
+        office: office,
+        menuItems: existingMenuDay.menuItems?.length > 0 ? existingMenuDay.menuItems : [emptyItem()],
+        specialNotes: existingMenuDay.specialNotes || ''
+      };
+    }
+    return {
+      date: format(new Date(), 'yyyy-MM-dd'),
+      office: office,
+      menuItems: [emptyItem()],
+      specialNotes: ''
+    };
   });
   const [saving, setSaving] = useState(false);
 
   const addMenuItem = () => {
-    setMenuDay({
-      ...menuDay,
-      menuItems: [
-        ...menuDay.menuItems,
-        {
-          itemName: '',
-          description: '',
-          isGF: false,
-          isGFA: false,
-          isVEG: false,
-          isVGN: false,
-          isDF: false,
-          isDFA: false,
-          isVGNA: false
-        }
-      ]
-    });
+    setMenuDay({ ...menuDay, menuItems: [...menuDay.menuItems, emptyItem()] });
   };
 
   const removeMenuItem = (index) => {
@@ -71,7 +59,11 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel, office }) {
 
     setSaving(true);
     try {
-      await base44.entities.MenuDay.create({ ...menuDay, office });
+      if (existingMenuDay?.id) {
+        await base44.entities.MenuDay.update(existingMenuDay.id, { ...menuDay, office });
+      } else {
+        await base44.entities.MenuDay.create({ ...menuDay, office });
+      }
       onSaveComplete();
     } catch (error) {
       alert('Error saving menu: ' + error.message);
@@ -84,7 +76,7 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel, office }) {
     <Card className="border-gray-200 shadow-sm rounded-2xl bg-white">
       <CardHeader>
         <CardTitle className="flex items-center justify-between text-lg font-semibold text-gray-900">
-          <span>Add Menu Day Manually</span>
+          <span>{existingMenuDay ? 'Edit Menu Day' : 'Add Menu Day Manually'}</span>
           <Button variant="ghost" size="sm" onClick={onCancel}>
             <X className="h-4 w-4" />
           </Button>
@@ -205,7 +197,7 @@ export default function ManualMenuEntry({ onSaveComplete, onCancel, office }) {
             ) : (
               <>
                 <Save className="h-4 w-4 mr-2" />
-                Save Menu Day
+                {existingMenuDay ? 'Update Menu Day' : 'Save Menu Day'}
               </>
             )}
           </Button>

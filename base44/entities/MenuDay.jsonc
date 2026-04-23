@@ -1,0 +1,75 @@
+{
+  "name": "MenuDay",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date for this menu"
+    },
+    "office": {
+      "type": "string",
+      "enum": [
+        "Cedar Rapids",
+        "New York",
+        "Miami"
+      ],
+      "description": "Office location this menu is for"
+    },
+    "menuItems": {
+      "type": "array",
+      "description": "List of menu items for this day",
+      "items": {
+        "type": "object",
+        "properties": {
+          "itemName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "isGF": {
+            "type": "boolean",
+            "default": false
+          },
+          "isGFA": {
+            "type": "boolean",
+            "default": false
+          },
+          "isVEG": {
+            "type": "boolean",
+            "default": false
+          },
+          "isVGN": {
+            "type": "boolean",
+            "default": false
+          },
+          "isDF": {
+            "type": "boolean",
+            "default": false
+          },
+          "isDFA": {
+            "type": "boolean",
+            "default": false
+          },
+          "isVGNA": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "itemName"
+        ]
+      }
+    },
+    "specialNotes": {
+      "type": "string",
+      "description": "Optional notes for the day"
+    }
+  },
+  "required": [
+    "date",
+    "menuItems",
+    "office"
+  ]
+}

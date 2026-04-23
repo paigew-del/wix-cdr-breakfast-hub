@@ -1,0 +1,30 @@
+{
+  "name": "RefreshmentReport",
+  "type": "object",
+  "properties": {
+    "itemName": {
+      "type": "string",
+      "description": "Name of the refreshment item"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "out_of_stock",
+        "restocked"
+      ],
+      "description": "Current stock status"
+    },
+    "reportedBy": {
+      "type": "string",
+      "description": "Email of employee who reported"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about the item"
+    }
+  },
+  "required": [
+    "itemName",
+    "status"
+  ]
+}
