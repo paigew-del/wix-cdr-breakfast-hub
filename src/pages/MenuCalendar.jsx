@@ -23,6 +23,7 @@ export default function MenuCalendar() {
   const [editingMenuDay, setEditingMenuDay] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
+  const [dialogMode, setDialogMode] = useState('view'); // 'view' | 'edit'
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -85,13 +86,15 @@ export default function MenuCalendar() {
     setShowManualEntry(false);
     setEditingMenuDay(null);
     setSelectedDay(null);
+    setDialogMode('view');
   };
 
   const handleEditDay = (menuDayData) => {
     setEditingMenuDay(menuDayData);
-    setShowManualEntry(true);
+    setSelectedDay(menuDayData);
+    setDialogMode('edit');
+    setShowManualEntry(false);
     setShowUpload(false);
-    setSelectedDay(null);
   };
 
   if (isLoading) {
@@ -222,6 +225,7 @@ export default function MenuCalendar() {
                 onClick={() => {
                   if (menuDay) {
                     setSelectedDay(menuDay);
+                    setDialogMode('view');
                   } else if (isAdmin && isCurrentMonth) {
                     handleEditDay({ date: dateStr, office, menuItems: [], specialNotes: '' });
                   }
@@ -256,45 +260,54 @@ export default function MenuCalendar() {
         </div>
       </div>
 
-      {/* Menu Detail Dialog */}
-      <Dialog open={!!selectedDay} onOpenChange={() => setSelectedDay(null)}>
+      {/* Menu Detail / Edit Dialog */}
+      <Dialog open={!!selectedDay} onOpenChange={() => { setSelectedDay(null); setDialogMode('view'); setEditingMenuDay(null); }}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto rounded-2xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center justify-between text-2xl font-bold text-gray-900">
-              <span>{selectedDay && format(parseISO(selectedDay.date), 'EEEE, MMMM d, yyyy')}</span>
-              {isAdmin && (
-                <Button size="sm" variant="outline" className="rounded-full" onClick={() => handleEditDay(selectedDay)}>
-                  <Pencil className="h-4 w-4 mr-1" /> Edit
-                </Button>
-              )}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-3 mt-4">
-            {selectedDay?.menuItems?.map((item, idx) => {
-              return (
-                <div key={idx} className="p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-300 transition-colors">
-                  <h3 className="font-semibold text-lg text-gray-900 mb-2">{item.itemName}</h3>
-                  {item.description && (
-                    <p className="text-sm text-gray-600 mb-3">{item.description}</p>
+          {dialogMode === 'edit' ? (
+            <ManualMenuEntry
+              onSaveComplete={handleManualSaveComplete}
+              onCancel={() => { setDialogMode('view'); setEditingMenuDay(null); setSelectedDay(null); }}
+              office={office}
+              existingMenuDay={editingMenuDay}
+            />
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle className="flex items-center justify-between text-2xl font-bold text-gray-900">
+                  <span>{selectedDay && format(parseISO(selectedDay.date), 'EEEE, MMMM d, yyyy')}</span>
+                  {isAdmin && (
+                    <Button size="sm" variant="outline" className="rounded-full" onClick={() => handleEditDay(selectedDay)}>
+                      <Pencil className="h-4 w-4 mr-1" /> Edit
+                    </Button>
                   )}
-                  <div className="flex flex-wrap gap-2">
-                    {item.isGF && <DietaryBadge type="GF" />}
-                    {item.isGFA && <DietaryBadge type="GFA" />}
-                    {item.isVEG && <DietaryBadge type="VEG" />}
-                    {item.isVGN && <DietaryBadge type="VGN" />}
-                    {item.isDF && <DietaryBadge type="DF" />}
-                    {item.isDFA && <DietaryBadge type="DFA" />}
-                    {item.isVGNA && <DietaryBadge type="VGNA" />}
+                </DialogTitle>
+              </DialogHeader>
+              <div className="space-y-3 mt-4">
+                {selectedDay?.menuItems?.map((item, idx) => (
+                  <div key={idx} className="p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-300 transition-colors">
+                    <h3 className="font-semibold text-lg text-gray-900 mb-2">{item.itemName}</h3>
+                    {item.description && (
+                      <p className="text-sm text-gray-600 mb-3">{item.description}</p>
+                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {item.isGF && <DietaryBadge type="GF" />}
+                      {item.isGFA && <DietaryBadge type="GFA" />}
+                      {item.isVEG && <DietaryBadge type="VEG" />}
+                      {item.isVGN && <DietaryBadge type="VGN" />}
+                      {item.isDF && <DietaryBadge type="DF" />}
+                      {item.isDFA && <DietaryBadge type="DFA" />}
+                      {item.isVGNA && <DietaryBadge type="VGNA" />}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-            {selectedDay?.specialNotes && (
-              <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
-                <p className="text-sm text-gray-700"><strong>Note:</strong> {selectedDay.specialNotes}</p>
+                ))}
+                {selectedDay?.specialNotes && (
+                  <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                    <p className="text-sm text-gray-700"><strong>Note:</strong> {selectedDay.specialNotes}</p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </div>
