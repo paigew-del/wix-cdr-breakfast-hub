@@ -389,15 +389,38 @@ export default function Analytics() {
 
         {/* Menu Suggestions */}
         <Card className="border-slate-200/60 shadow-sm">
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg">Recent Menu Suggestions</CardTitle>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={suggestions.length === 0}
+              onClick={() => {
+                const suggestionsWithMeta = feedback
+                  .filter(f => f.menuSuggestions)
+                  .map(f => [f.dateOfBreakfast || '', f.employeeName || 'Anonymous', f.menuSuggestions]);
+                const csvContent = [
+                  ['Date', 'Employee', 'Menu Suggestion'],
+                  ...suggestionsWithMeta
+                ].map(row => row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `menu-suggestions-${dateRange.start}-to-${dateRange.end}.csv`;
+                a.click();
+              }}
+            >
+              <Download className="h-4 w-4 mr-1" /> Export CSV
+            </Button>
           </CardHeader>
           <CardContent>
             <div className="space-y-3 max-h-[250px] overflow-y-auto">
               {suggestions.length > 0 ? (
-                suggestions.slice(0, 10).map((suggestion, idx) => (
+                feedback.filter(f => f.menuSuggestions).slice(0, 10).map((f, idx) => (
                   <div key={idx} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                    <p className="text-sm text-slate-700">{suggestion}</p>
+                    <p className="text-sm text-slate-700">{f.menuSuggestions}</p>
+                    <p className="text-xs text-slate-400 mt-1">{f.employeeName || 'Anonymous'} · {f.dateOfBreakfast}</p>
                   </div>
                 ))
               ) : (
